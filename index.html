@@ -17,60 +17,132 @@
       --text-secondary: #64748b;
       --text-muted: #94a3b8;
       --radius: 8px;
+      --primary-color: #d97706;
     }
     
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       background-color: #ffffff;
-      margin: 20px;
+      margin: 0;
+      padding: 20px;
+      font-family: var(--font-sans);
     }
 
-    /* تنسيقات الصورة والحركة */
-    .building-img {
-      width: 100%;
-      max-width: 500px;
-      height: 250px;
-      object-fit: cover;
-      border-radius: var(--radius);
-      cursor: pointer;
-      margin-top: 10px;
-      transition: transform 0.25s ease-in-out;
+    /* تخطيط الصفحة الأساسي (Layout) */
+    .dashboard-container {
+      display: flex;
+      flex-direction: row;
+      gap: 0;
+      min-height: 500px;
       border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 15px;
     }
 
-    .building-img.pop {
-      transform: scale(1.05);
-    }
-
-    /* تنسيقات عارض المستويات والأسهم */
-    #levels-viewer {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 20px;
+    /* القائمة الجانبية */
+    .sidebar {
+      width: 220px;
+      flex-shrink: 0;
       background: var(--surface-1);
-      padding: 15px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-    }
-
-    .arrows-container {
+      border-left: 1px solid var(--border);
+      padding: 15px 10px;
       display: flex;
-      gap: 15px;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 5px;
+      transition: all 0.3s ease;
     }
 
-    .arrow-btn {
+    .sidebar-hidden {
+      display: none !important;
+    }
+
+    .nav-item {
       display: flex;
       align-items: center;
-      gap: 5px;
-      padding: 8px 16px;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius);
+      background: transparent;
+      border: none;
+      text-align: right;
+      font-size: 15px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav-item i {
+      font-size: 20px;
+    }
+
+    .nav-item:hover {
+      background: rgba(226, 232, 240, 0.5);
+    }
+
+    .nav-item.active {
+      background: var(--fill-ghost-selected);
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* منطقة المحتوى */
+    .content-area {
+      flex: 1;
+      padding: 25px;
+      overflow-x: hidden;
+    }
+
+    .panel {
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* شبكة الإحصائيات */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: var(--surface-1);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .stat-card p.title {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: 0 0 8px;
+    }
+
+    .stat-card p.value {
+      font-size: 28px;
+      font-weight: bold;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    /* الأزرار العامة */
+    .arrow-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
       border: 1px solid var(--border);
       border-radius: var(--radius);
       background: #fff;
       cursor: pointer;
       font-family: var(--font-sans);
       color: var(--text-primary);
+      font-size: 14px;
       transition: background 0.2s;
     }
 
@@ -83,7 +155,53 @@
       cursor: not-allowed;
     }
 
-    /* نافذة تكبير الصورة (Modal) */
+    /* الصور (المبنى والمخططات) */
+    .image-container {
+      margin-top: 15px;
+    }
+
+    .building-img, #current-level-img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: transform 0.25s ease-in-out, box-shadow 0.2s;
+      border: 1px solid var(--border);
+      display: block;
+    }
+
+    #current-level-img {
+      cursor: zoom-in;
+    }
+
+    .building-img:hover {
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .building-img.pop {
+      transform: scale(1.03);
+    }
+
+    /* عارض المستويات */
+    #levels-viewer {
+      display: none;
+      flex-direction: column;
+      background: var(--surface-1);
+      padding: 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-top: 20px;
+    }
+
+    .arrows-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    /* نافذة التكبير (Modal) */
     #image-modal {
       display: none;
       position: fixed;
@@ -91,7 +209,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(15, 23, 42, 0.95);
       z-index: 9999;
       flex-direction: column;
     }
@@ -99,8 +217,9 @@
     .modal-header {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       padding: 15px 20px;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.6);
       color: white;
     }
 
@@ -112,16 +231,19 @@
     .modal-btn {
       background: #fff;
       border: none;
-      padding: 8px 15px;
-      border-radius: 5px;
+      padding: 10px 15px;
+      border-radius: var(--radius);
       cursor: pointer;
       font-weight: bold;
-      font-size: 16px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
     #modal-img-container {
       flex: 1;
-      overflow: auto; /* يسمح بالتمرير عند التكبير */
+      overflow: auto;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -132,12 +254,51 @@
       transition: width 0.2s ease-in-out;
       width: 90%;
       max-width: none;
-      border-radius: 8px;
+      border-radius: var(--radius);
     }
 
-    /* تنسيقات إخفاء القائمة الجانبية */
-    .sidebar-hidden {
-      display: none !important;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================
+       التجاوب مع الشاشات الصغيرة (الجوال)
+       ========================================== */
+    @media (max-width: 768px) {
+      body {
+        padding: 15px;
+      }
+      
+      .dashboard-container {
+        flex-direction: column; /* تحويل التخطيط لعمودي */
+      }
+
+      .sidebar {
+        width: 100%;
+        border-left: none;
+        border-bottom: 1px solid var(--border);
+        padding: 15px;
+      }
+
+      .content-area {
+        padding: 15px;
+      }
+
+      .building-img, #current-level-img {
+        height: 220px; /* تصغير ارتفاع الصور في الجوال */
+      }
+
+      .arrows-container {
+        justify-content: center;
+      }
+
+      #btn-back {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+        margin-right: 0 !important;
+      }
     }
   </style>
 </head>
@@ -150,80 +311,96 @@
         <button class="modal-btn" id="zoom-in" title="تكبير"><i class="ti ti-zoom-in"></i> تكبير</button>
         <button class="modal-btn" id="zoom-out" title="تصغير"><i class="ti ti-zoom-out"></i> تصغير</button>
       </div>
-      <button class="modal-btn" id="close-modal" style="color: red;"><i class="ti ti-x"></i> إغلاق</button>
+      <button class="modal-btn" id="close-modal" style="color: #ef4444;"><i class="ti ti-x"></i> إغلاق</button>
     </div>
     <div id="modal-img-container">
       <img id="modal-img" src="" alt="صورة مكبرة">
     </div>
   </div>
 
-  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;">لوحة تحكم خريطة الجامعة</h2>
+  <h1 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;">لوحة تحكم خريطة الجامعة</h1>
   
-  <!-- زر إظهار القائمة (يظهر خارج الإطار) -->
-  <button id="toggle-sidebar" class="arrow-btn" style="margin-bottom: 15px;">
+  <!-- زر إظهار القائمة -->
+  <button id="toggle-sidebar" class="arrow-btn">
     <i class="ti ti-menu-2"></i> القائمة الجانبية
   </button>
 
-  <div dir="rtl" style="display:flex; gap:0; min-height:420px; font-family:var(--font-sans); border:0.5px solid var(--border); border-radius:12px; overflow:hidden;">
+  <!-- الحاوية الرئيسية (Layout) -->
+  <div class="dashboard-container">
     
     <!-- القائمة الجانبية -->
-    <div id="sidebar" style="width:180px; flex-shrink:0; background:var(--surface-1); border-left:0.5px solid var(--border); padding:12px 8px; display:flex; flex-direction:column; gap:2px; transition: 0.3s;">
-      <button class="nav-item" data-section="overview" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius); background:transparent; border:none; text-align:right; font-size:14px; color:var(--text-secondary); cursor:pointer;">
-        <i class="ti ti-layout-dashboard" style="font-size:18px;"></i>المقر الرئيسي
+    <div id="sidebar" class="sidebar sidebar-hidden-mobile">
+      <button class="nav-item" data-section="overview">
+        <i class="ti ti-layout-dashboard"></i> المقر الرئيسي
       </button>
-      <button class="nav-item" data-section="projects" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius); background:var(--fill-ghost-selected); border:none; text-align:right; font-size:14px; color:var(--text-primary); cursor:pointer;">
-        <i class="ti ti-folder" style="font-size:18px;"></i>مقر ابيار علي 172
+      <button class="nav-item active" data-section="projects">
+        <i class="ti ti-folder"></i> مقر ابيار علي 172
       </button>
-      <button class="nav-item" data-section="tasks" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius); background:transparent; border:none; text-align:right; font-size:14px; color:var(--text-secondary); cursor:pointer;">
-        <i class="ti ti-checklist" style="font-size:18px;"></i>مقر كلية السلام
+      <button class="nav-item" data-section="tasks">
+        <i class="ti ti-checklist"></i> مقر كلية السلام
       </button>
     </div>
 
     <!-- منطقة المحتوى -->
-    <div style="flex:1; padding:20px; overflow-x: auto;">
+    <div class="content-area">
       
+      <!-- قسم المقر الرئيسي -->
       <div id="panel-overview" class="panel" style="display:none;">
-        <p style="font-size:14px; color:var(--text-secondary); margin:0;">اختر قسمًا من القائمة الجانبية لعرض تفاصيله.</p>
+        <h3 style="margin-top:0; color:var(--text-primary);">المقر الرئيسي</h3>
+        <p style="color:var(--text-secondary);">محتوى المقر الرئيسي يظهر هنا...</p>
       </div>
 
       <!-- قسم مقر ابيار علي 172 -->
       <div id="panel-projects" class="panel" style="display:block;">
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(100px, 1fr)); gap:12px; margin-bottom:16px;">
-          <div style="background:var(--surface-1); border-radius:var(--radius); padding:1rem;">
-            <p style="font-size:13px; color:var(--text-muted); margin:0 0 6px;">عدد الكليات</p>
-            <p style="font-size:24px; font-weight:500; margin:0;">3</p>
+        
+        <!-- الإحصائيات -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <p class="title">عدد الكليات</p>
+            <p class="value">3</p>
           </div>
-          <div style="background:var(--surface-1); border-radius:var(--radius); padding:1rem;">
-            <p style="font-size:13px; color:var(--text-muted); margin:0 0 6px;">عدد الادوار</p>
-            <p style="font-size:24px; font-weight:500; margin:0;">3</p>
+          <div class="stat-card">
+            <p class="title">عدد الأدوار</p>
+            <p class="value">3</p>
           </div>
-          <div style="background:var(--surface-1); border-radius:var(--radius); padding:1rem;">
-            <p style="font-size:13px; color:var(--text-muted); margin:0 0 6px;">عدد القاعات</p>
-            <p style="font-size:24px; font-weight:500; margin:0;">120</p>
+          <div class="stat-card">
+            <p class="title">عدد القاعات</p>
+            <p class="value">120</p>
           </div>
         </div>
         
         <!-- الصورة الرئيسية للمبنى -->
-        <p style="font-size:14px; color:var(--text-secondary); margin:0 0 10px 0;">اضغط على الصورة أدناه لعرض مخططات الأدوار:</p>
-        <img id="main-map-img" src="https://k.top4top.io/p_3897iqqsm1.jpg" class="building-img" alt="صورة المبنى الرئيسي">
+        <div class="image-container" id="main-map-container">
+          <p style="font-size:15px; color:var(--text-secondary); margin:0 0 12px 0;">
+            <i class="ti ti-click" style="vertical-align: middle;"></i> اضغط على الصورة أدناه لعرض مخططات الأدوار:
+          </p>
+          <img id="main-map-img" src="https://k.top4top.io/p_3897iqqsm1.jpg" class="building-img" alt="صورة المبنى الرئيسي">
+        </div>
         
         <!-- عارض المستويات -->
         <div id="levels-viewer">
           <div class="arrows-container">
             <button id="btn-up" class="arrow-btn"><i class="ti ti-arrow-up"></i> الدور الأعلى</button>
             <button id="btn-down" class="arrow-btn"><i class="ti ti-arrow-down"></i> الدور الأسفل</button>
-            <button id="btn-back" class="arrow-btn" style="color: #d97706; margin-right: auto;">رجوع للمبنى</button>
+            <button id="btn-back" class="arrow-btn" style="color: var(--primary-color); margin-right: auto;">
+              <i class="ti ti-arrow-back-up"></i> رجوع للمبنى
+            </button>
           </div>
           
-          <!-- صورة المستوى الحالي (تمت إضافة مؤشر الفأرة للضغط) -->
-          <p style="font-size:12px; color:var(--text-secondary); margin: 0 0 10px 0;">اضغط على صورة المخطط لتكبيرها</p>
-          <img id="current-level-img" src="" style="width: 100%; max-width: 500px; height: 300px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); cursor: zoom-in;">
-          <p id="level-indicator" style="margin-top: 10px; font-weight: bold; color: var(--text-primary);"></p>
+          <div style="text-align: center;">
+            <p style="font-size:14px; color:var(--text-secondary); margin: 0 0 12px 0;">
+              <i class="ti ti-zoom-in"></i> اضغط على المخطط لتكبيره
+            </p>
+            <img id="current-level-img" src="" alt="مخطط الدور">
+            <h3 id="level-indicator" style="margin: 15px 0 0 0; color: var(--text-primary);"></h3>
+          </div>
         </div>
       </div>
 
+      <!-- قسم كلية السلام -->
       <div id="panel-tasks" class="panel" style="display:none;">
-        <p style="font-size:14px; color:var(--text-secondary); margin:0;">محتوى كلية السلام.</p>
+        <h3 style="margin-top:0; color:var(--text-primary);">مقر كلية السلام</h3>
+        <p style="color:var(--text-secondary);">محتوى كلية السلام يظهر هنا...</p>
       </div>
 
     </div>
@@ -231,10 +408,15 @@
 
   <script>
   // ==========================================
-  // 1. نظام القائمة الجانبية (إخفاء وإظهار)
+  // 1. نظام القائمة الجانبية (إخفاء وإظهار متجاوب)
   // ==========================================
   const sidebar = document.getElementById('sidebar');
   const toggleSidebarBtn = document.getElementById('toggle-sidebar');
+
+  // إخفاء القائمة في الجوال عند البداية فقط كترتيب شكلي
+  if (window.innerWidth <= 768) {
+      sidebar.classList.add('sidebar-hidden');
+  }
 
   toggleSidebarBtn.addEventListener('click', function() {
     sidebar.classList.toggle('sidebar-hidden');
@@ -242,21 +424,22 @@
 
   document.querySelectorAll('.nav-item').forEach(function(btn){
     btn.addEventListener('click', function(){
-      // تغيير التفعيل
+      // إزالة التفعيل عن جميع الأزرار
       document.querySelectorAll('.nav-item').forEach(function(b){
-        b.style.background = 'transparent';
-        b.style.color = 'var(--text-secondary)';
+        b.classList.remove('active');
       });
-      btn.style.background = 'var(--fill-ghost-selected)';
-      btn.style.color = 'var(--text-primary)';
+      // تفعيل الزر المضغوط
+      btn.classList.add('active');
       
       // تبديل المحتوى
       var section = btn.getAttribute('data-section');
       document.querySelectorAll('.panel').forEach(function(p){ p.style.display = 'none'; });
       document.getElementById('panel-' + section).style.display = 'block';
 
-      // إخفاء القائمة الجانبية بعد الاختيار (لترتيب الشاشة)
-      sidebar.classList.add('sidebar-hidden');
+      // إخفاء القائمة الجانبية بعد الاختيار (في الجوال فقط)
+      if (window.innerWidth <= 768) {
+         sidebar.classList.add('sidebar-hidden');
+      }
     });
   });
 
@@ -271,6 +454,7 @@
   const levelNames = ["الدور الأرضي", "الدور الأول", "الدور الثاني"];
   let currentLevel = 0; 
 
+  const mainMapContainer = document.getElementById('main-map-container');
   const mainMapImg = document.getElementById('main-map-img');
   const levelsViewer = document.getElementById('levels-viewer');
   const currentLevelImg = document.getElementById('current-level-img');
@@ -279,12 +463,12 @@
   const btnDown = document.getElementById('btn-down');
   const btnBack = document.getElementById('btn-back');
 
-  // عند النقر على الصورة الرئيسية (المبنى الخارجي)
+  // عند النقر على الصورة الرئيسية
   mainMapImg.addEventListener('click', function() {
     mainMapImg.classList.add('pop');
     setTimeout(function() {
       mainMapImg.classList.remove('pop');
-      mainMapImg.style.display = 'none'; 
+      mainMapContainer.style.display = 'none'; 
       levelsViewer.style.display = 'flex'; 
       updateLevelView(); 
     }, 250); 
@@ -306,7 +490,7 @@
 
   btnBack.addEventListener('click', function() {
     levelsViewer.style.display = 'none';
-    mainMapImg.style.display = 'block';
+    mainMapContainer.style.display = 'block';
     currentLevel = 0; 
   });
 
@@ -326,31 +510,29 @@
   const zoomInBtn = document.getElementById('zoom-in');
   const zoomOutBtn = document.getElementById('zoom-out');
   
-  let currentZoom = 90; // نسبة العرض الأساسية
+  // نحدد نسبة التكبير الابتدائية بناءً على حجم الشاشة (في الجوال 100%، في اللاب توب 80%)
+  let defaultZoom = window.innerWidth <= 768 ? 100 : 80;
+  let currentZoom = defaultZoom; 
 
-  // فتح الصورة في النافذة
   currentLevelImg.addEventListener('click', function() {
     modalImg.src = this.src;
-    currentZoom = 90; // إعادة التعيين الحجم الافتراضي
+    currentZoom = defaultZoom;
     modalImg.style.width = currentZoom + '%';
     imageModal.style.display = 'flex';
   });
 
-  // إغلاق النافذة
   closeModalBtn.addEventListener('click', function() {
     imageModal.style.display = 'none';
   });
 
-  // تكبير
   zoomInBtn.addEventListener('click', function() {
-    currentZoom += 30; // إضافة 30% لكل ضغطة
+    currentZoom += 25;
     modalImg.style.width = currentZoom + '%';
   });
 
-  // تصغير
   zoomOutBtn.addEventListener('click', function() {
     if(currentZoom > 50) {
-      currentZoom -= 30; // طرح 30%
+      currentZoom -= 25;
       modalImg.style.width = currentZoom + '%';
     }
   });
