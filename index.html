@@ -24,7 +24,7 @@
       margin: 20px;
     }
 
-    /* تنسيقات الصورة والحركة (Animation) */
+    /* تنسيقات الصورة والحركة */
     .building-img {
       width: 100%;
       max-width: 500px;
@@ -57,6 +57,7 @@
       display: flex;
       gap: 15px;
       margin-bottom: 15px;
+      flex-wrap: wrap;
     }
 
     .arrow-btn {
@@ -81,14 +82,92 @@
       opacity: 0.5;
       cursor: not-allowed;
     }
+
+    /* نافذة تكبير الصورة (Modal) */
+    #image-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 9999;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+    }
+
+    .modal-controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .modal-btn {
+      background: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    #modal-img-container {
+      flex: 1;
+      overflow: auto; /* يسمح بالتمرير عند التكبير */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    #modal-img {
+      transition: width 0.2s ease-in-out;
+      width: 90%;
+      max-width: none;
+      border-radius: 8px;
+    }
+
+    /* تنسيقات إخفاء القائمة الجانبية */
+    .sidebar-hidden {
+      display: none !important;
+    }
   </style>
 </head>
 <body>
 
+  <!-- نافذة تكبير الصور -->
+  <div id="image-modal">
+    <div class="modal-header">
+      <div class="modal-controls">
+        <button class="modal-btn" id="zoom-in" title="تكبير"><i class="ti ti-zoom-in"></i> تكبير</button>
+        <button class="modal-btn" id="zoom-out" title="تصغير"><i class="ti ti-zoom-out"></i> تصغير</button>
+      </div>
+      <button class="modal-btn" id="close-modal" style="color: red;"><i class="ti ti-x"></i> إغلاق</button>
+    </div>
+    <div id="modal-img-container">
+      <img id="modal-img" src="" alt="صورة مكبرة">
+    </div>
+  </div>
+
   <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;">لوحة تحكم خريطة الجامعة</h2>
+  
+  <!-- زر إظهار القائمة (يظهر خارج الإطار) -->
+  <button id="toggle-sidebar" class="arrow-btn" style="margin-bottom: 15px;">
+    <i class="ti ti-menu-2"></i> القائمة الجانبية
+  </button>
+
   <div dir="rtl" style="display:flex; gap:0; min-height:420px; font-family:var(--font-sans); border:0.5px solid var(--border); border-radius:12px; overflow:hidden;">
     
-    <div id="sidebar" style="width:180px; flex-shrink:0; background:var(--surface-1); border-left:0.5px solid var(--border); padding:12px 8px; display:flex; flex-direction:column; gap:2px;">
+    <!-- القائمة الجانبية -->
+    <div id="sidebar" style="width:180px; flex-shrink:0; background:var(--surface-1); border-left:0.5px solid var(--border); padding:12px 8px; display:flex; flex-direction:column; gap:2px; transition: 0.3s;">
       <button class="nav-item" data-section="overview" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius); background:transparent; border:none; text-align:right; font-size:14px; color:var(--text-secondary); cursor:pointer;">
         <i class="ti ti-layout-dashboard" style="font-size:18px;"></i>المقر الرئيسي
       </button>
@@ -100,7 +179,8 @@
       </button>
     </div>
 
-    <div style="flex:1; padding:20px;">
+    <!-- منطقة المحتوى -->
+    <div style="flex:1; padding:20px; overflow-x: auto;">
       
       <div id="panel-overview" class="panel" style="display:none;">
         <p style="font-size:14px; color:var(--text-secondary); margin:0;">اختر قسمًا من القائمة الجانبية لعرض تفاصيله.</p>
@@ -108,7 +188,7 @@
 
       <!-- قسم مقر ابيار علي 172 -->
       <div id="panel-projects" class="panel" style="display:block;">
-        <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; margin-bottom:16px;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(100px, 1fr)); gap:12px; margin-bottom:16px;">
           <div style="background:var(--surface-1); border-radius:var(--radius); padding:1rem;">
             <p style="font-size:13px; color:var(--text-muted); margin:0 0 6px;">عدد الكليات</p>
             <p style="font-size:24px; font-weight:500; margin:0;">3</p>
@@ -127,7 +207,7 @@
         <p style="font-size:14px; color:var(--text-secondary); margin:0 0 10px 0;">اضغط على الصورة أدناه لعرض مخططات الأدوار:</p>
         <img id="main-map-img" src="https://k.top4top.io/p_3897iqqsm1.jpg" class="building-img" alt="صورة المبنى الرئيسي">
         
-        <!-- عارض المستويات (يظهر بعد النقر على الصورة) -->
+        <!-- عارض المستويات -->
         <div id="levels-viewer">
           <div class="arrows-container">
             <button id="btn-up" class="arrow-btn"><i class="ti ti-arrow-up"></i> الدور الأعلى</button>
@@ -135,8 +215,9 @@
             <button id="btn-back" class="arrow-btn" style="color: #d97706; margin-right: auto;">رجوع للمبنى</button>
           </div>
           
-          <!-- صورة المستوى الحالي -->
-          <img id="current-level-img" src="" style="width: 100%; max-width: 500px; height: 300px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border);">
+          <!-- صورة المستوى الحالي (تمت إضافة مؤشر الفأرة للضغط) -->
+          <p style="font-size:12px; color:var(--text-secondary); margin: 0 0 10px 0;">اضغط على صورة المخطط لتكبيرها</p>
+          <img id="current-level-img" src="" style="width: 100%; max-width: 500px; height: 300px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); cursor: zoom-in;">
           <p id="level-indicator" style="margin-top: 10px; font-weight: bold; color: var(--text-primary);"></p>
         </div>
       </div>
@@ -149,26 +230,43 @@
   </div>
 
   <script>
-  // التبديل بين الأقسام
+  // ==========================================
+  // 1. نظام القائمة الجانبية (إخفاء وإظهار)
+  // ==========================================
+  const sidebar = document.getElementById('sidebar');
+  const toggleSidebarBtn = document.getElementById('toggle-sidebar');
+
+  toggleSidebarBtn.addEventListener('click', function() {
+    sidebar.classList.toggle('sidebar-hidden');
+  });
+
   document.querySelectorAll('.nav-item').forEach(function(btn){
     btn.addEventListener('click', function(){
+      // تغيير التفعيل
       document.querySelectorAll('.nav-item').forEach(function(b){
         b.style.background = 'transparent';
         b.style.color = 'var(--text-secondary)';
       });
       btn.style.background = 'var(--fill-ghost-selected)';
       btn.style.color = 'var(--text-primary)';
+      
+      // تبديل المحتوى
       var section = btn.getAttribute('data-section');
       document.querySelectorAll('.panel').forEach(function(p){ p.style.display = 'none'; });
       document.getElementById('panel-' + section).style.display = 'block';
+
+      // إخفاء القائمة الجانبية بعد الاختيار (لترتيب الشاشة)
+      sidebar.classList.add('sidebar-hidden');
     });
   });
 
-  // روابط صور المخططات (Blueprints) للأدوار
+  // ==========================================
+  // 2. نظام صور الأدوار والمخططات
+  // ==========================================
   const levelImages = [
-    "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80", // الدور الأرضي
-    "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80", // الدور الأول
-    "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80"  // الدور الثاني
+    "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=100", // الدور الأرضي
+    "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=100", // الدور الأول
+    "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=100"  // الدور الثاني
   ];
   const levelNames = ["الدور الأرضي", "الدور الأول", "الدور الثاني"];
   let currentLevel = 0; 
@@ -181,10 +279,9 @@
   const btnDown = document.getElementById('btn-down');
   const btnBack = document.getElementById('btn-back');
 
-  // عند النقر على الصورة الرئيسية
+  // عند النقر على الصورة الرئيسية (المبنى الخارجي)
   mainMapImg.addEventListener('click', function() {
     mainMapImg.classList.add('pop');
-    
     setTimeout(function() {
       mainMapImg.classList.remove('pop');
       mainMapImg.style.display = 'none'; 
@@ -193,7 +290,6 @@
     }, 250); 
   });
 
-  // التنقل بين الأدوار
   btnUp.addEventListener('click', function() {
     if (currentLevel < levelImages.length - 1) {
       currentLevel++;
@@ -208,7 +304,6 @@
     }
   });
 
-  // الرجوع
   btnBack.addEventListener('click', function() {
     levelsViewer.style.display = 'none';
     mainMapImg.style.display = 'block';
@@ -218,10 +313,47 @@
   function updateLevelView() {
     currentLevelImg.src = levelImages[currentLevel];
     levelIndicator.innerText = levelNames[currentLevel];
-    
     btnDown.disabled = (currentLevel === 0);
     btnUp.disabled = (currentLevel === levelImages.length - 1);
   }
+
+  // ==========================================
+  // 3. نظام نافذة التكبير (Modal Zoom)
+  // ==========================================
+  const imageModal = document.getElementById('image-modal');
+  const modalImg = document.getElementById('modal-img');
+  const closeModalBtn = document.getElementById('close-modal');
+  const zoomInBtn = document.getElementById('zoom-in');
+  const zoomOutBtn = document.getElementById('zoom-out');
+  
+  let currentZoom = 90; // نسبة العرض الأساسية
+
+  // فتح الصورة في النافذة
+  currentLevelImg.addEventListener('click', function() {
+    modalImg.src = this.src;
+    currentZoom = 90; // إعادة التعيين الحجم الافتراضي
+    modalImg.style.width = currentZoom + '%';
+    imageModal.style.display = 'flex';
+  });
+
+  // إغلاق النافذة
+  closeModalBtn.addEventListener('click', function() {
+    imageModal.style.display = 'none';
+  });
+
+  // تكبير
+  zoomInBtn.addEventListener('click', function() {
+    currentZoom += 30; // إضافة 30% لكل ضغطة
+    modalImg.style.width = currentZoom + '%';
+  });
+
+  // تصغير
+  zoomOutBtn.addEventListener('click', function() {
+    if(currentZoom > 50) {
+      currentZoom -= 30; // طرح 30%
+      modalImg.style.width = currentZoom + '%';
+    }
+  });
   </script>
 
 </body>
