@@ -1,18 +1,139 @@
-<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;">ثلاث لوحات، كل واحدة تعرض صورة مختلفة عند الضغط عليها</h2>
-<div dir="rtl" style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px;">
-  <button onclick="sendPrompt('وريني صورة جبال وطبيعة')" style="cursor:pointer; text-align:right; background:var(--surface-2); border:0.5px solid var(--border); border-radius:12px; padding:1rem; display:flex; flex-direction:column; gap:10px;">
-    <div style="width:40px; height:40px; border-radius:50%; background:var(--bg-accent); display:flex; align-items:center; justify-content:center;"><i class="ti ti-mountain" style="font-size:20px; color:var(--text-accent);" aria-hidden="true"></i></div>
-    <p style="font-size:14px; font-weight:500; margin:0; color:var(--text-primary);">لوحة الطبيعة</p>
-    <p style="font-size:13px; color:var(--text-secondary); margin:0;">اضغط لعرض صورة جبال وطبيعة</p>
-  </button>
-  <button onclick="sendPrompt('وريني صورة مدينة ليلاً')" style="cursor:pointer; text-align:right; background:var(--surface-2); border:0.5px solid var(--border); border-radius:12px; padding:1rem; display:flex; flex-direction:column; gap:10px;">
-    <div style="width:40px; height:40px; border-radius:50%; background:var(--bg-accent); display:flex; align-items:center; justify-content:center;"><i class="ti ti-building-skyscraper" style="font-size:20px; color:var(--text-accent);" aria-hidden="true"></i></div>
-    <p style="font-size:14px; font-weight:500; margin:0; color:var(--text-primary);">لوحة المدينة</p>
-    <p style="font-size:13px; color:var(--text-secondary); margin:0;">اضغط لعرض صورة مدينة ليلاً</p>
-  </button>
-  <button onclick="sendPrompt('وريني صورة بحر وشاطئ')" style="cursor:pointer; text-align:right; background:var(--surface-2); border:0.5px solid var(--border); border-radius:12px; padding:1rem; display:flex; flex-direction:column; gap:10px;">
-    <div style="width:40px; height:40px; border-radius:50%; background:var(--bg-accent); display:flex; align-items:center; justify-content:center;"><i class="ti ti-beach" style="font-size:20px; color:var(--text-accent);" aria-hidden="true"></i></div>
-    <p style="font-size:14px; font-weight:500; margin:0; color:var(--text-primary);">لوحة البحر</p>
-    <p style="font-size:13px; color:var(--text-secondary); margin:0;">اضغط لعرض صورة بحر وشاطئ</p>
-  </button>
-</div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم</title>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  
+  <style>
+    :root {
+      --font-sans: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      --border: #e2e8f0;
+      --surface-1: #f8fafc;
+      --fill-ghost-selected: #e2e8f0;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --radius: 8px;
+      
+      /* ألوان الحالات */
+      --text-accent: #2563eb;
+      --bg-accent: #dbeafe;
+      --text-warning: #d97706;
+      --bg-warning: #fef3c7;
+      --text-success: #16a34a;
+      --bg-success: #dcfce7;
+    }
+    
+    body {
+      background-color: #ffffff;
+      margin: 20px;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;">لوحة تحكم فيها أقسام جانبية قابلة للاختيار: نظرة عامة، المشاريع، المهام، الفريق، الإعدادات</h2>
+  <div dir="rtl" style="display:flex; gap:0; min-height:420px; font-family:var(--font-sans); border:0.5px solid var(--border); border-radius:12px; overflow:hidden;">
+    
+    <div id="sidebar" style="width:180px; flex-shrink:0; background:var(--surface-1); border-left:0.5px solid var(--border); padding:12px 8px; display:flex; flex-direction:column; gap:2px;">
+      <button class="nav-item" data-section="overview" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius); background:var(--fill-ghost-selected); border:none; text-align:right; font-size:14px; color:var(--text-primary); cursor:pointer;">
+        <i class="ti ti-layout-dashboard" style="font-size:18px;" aria-hidden="true"></i>نظرة عامة
+      </button>
+      <button class="nav-item" data-section="projects" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius); background:transparent; border:none; text-align:right; font-size:14px; color:var(--text-secondary); cursor:pointer;">
+        <i class="ti ti-folder" style="font-size:18px;" aria-hidden="true"></i>المشاريع
+      </button>
+      <button class="nav-item" data-section="tasks" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius); background:transparent; border:none; text-align:right; font-size:14px; color:var(--text-secondary); cursor:pointer;">
+        <i class="ti ti-checklist" style="font-size:18px;" aria-hidden="true"></i>المهام
+      </button>
+      <button class="nav-item" data-section="team" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius); background:transparent; border:none; text-align:right; font-size:14px; color:var(--text-secondary); cursor:pointer;">
+        <i class="ti ti-users" style="font-size:18px;" aria-hidden="true"></i>الفريق
+      </button>
+      <button class="nav-item" data-section="settings" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius); background:transparent; border:none; text-align:right; font-size:14px; color:var(--text-secondary); cursor:pointer;">
+        <i class="ti ti-settings" style="font-size:18px;" aria-hidden="true"></i>الإعدادات
+      </button>
+    </div>
+
+    <div style="flex:1; padding:20px;">
+      
+      <div id="panel-overview" class="panel">
+        <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; margin-bottom:16px;">
+          <div style="background:var(--surface-1); border-radius:var(--radius); padding:1rem;">
+            <p style="font-size:13px; color:var(--text-muted); margin:0 0 6px;">المشاريع النشطة</p>
+            <p style="font-size:24px; font-weight:500; margin:0;">7</p>
+          </div>
+          <div style="background:var(--surface-1); border-radius:var(--radius); padding:1rem;">
+            <p style="font-size:13px; color:var(--text-muted); margin:0 0 6px;">مهام مكتملة</p>
+            <p style="font-size:24px; font-weight:500; margin:0;">34</p>
+          </div>
+          <div style="background:var(--surface-1); border-radius:var(--radius); padding:1rem;">
+            <p style="font-size:13px; color:var(--text-muted); margin:0 0 6px;">أعضاء الفريق</p>
+            <p style="font-size:24px; font-weight:500; margin:0;">5</p>
+          </div>
+        </div>
+        <p style="font-size:14px; color:var(--text-secondary); margin:0;">اختر قسمًا من القائمة الجانبية لعرض تفاصيله.</p>
+      </div>
+
+      <div id="panel-projects" class="panel" style="display:none;">
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:var(--surface-1); border-radius:var(--radius);"><span style="font-size:14px;">إعادة تصميم الموقع</span><span style="font-size:12px; color:var(--text-accent); background:var(--bg-accent); padding:3px 10px; border-radius:var(--radius);">قيد التنفيذ</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:var(--surface-1); border-radius:var(--radius);"><span style="font-size:14px;">تطبيق الجوال</span><span style="font-size:12px; color:var(--text-warning); background:var(--bg-warning); padding:3px 10px; border-radius:var(--radius);">متأخر</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:var(--surface-1); border-radius:var(--radius);"><span style="font-size:14px;">حملة التسويق</span><span style="font-size:12px; color:var(--text-success); background:var(--bg-success); padding:3px 10px; border-radius:var(--radius);">مكتمل</span></div>
+        </div>
+      </div>
+
+      <div id="panel-tasks" class="panel" style="display:none;">
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <label style="display:flex; align-items:center; gap:8px; font-size:14px; padding:6px 0;"><input type="checkbox" checked/>مراجعة تصميم الصفحة الرئيسية</label>
+          <label style="display:flex; align-items:center; gap:8px; font-size:14px; padding:6px 0;"><input type="checkbox"/>تحديث محتوى القسم الجانبي</label>
+          <label style="display:flex; align-items:center; gap:8px; font-size:14px; padding:6px 0;"><input type="checkbox"/>اجتماع مع الفريق التقني</label>
+          <label style="display:flex; align-items:center; gap:8px; font-size:14px; padding:6px 0;"><input type="checkbox" checked/>إرسال التقرير الأسبوعي</label>
+        </div>
+      </div>
+
+      <div id="panel-team" class="panel" style="display:none;">
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; align-items:center; gap:10px;"><div style="width:32px;height:32px;border-radius:50%;background:var(--bg-accent);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--text-accent);">سا</div><span style="font-size:14px;">سارة أحمد — مديرة المنتج</span></div>
+          <div style="display:flex; align-items:center; gap:10px;"><div style="width:32px;height:32px;border-radius:50%;background:var(--bg-accent);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--text-accent);">فه</div><span style="font-size:14px;">فهد العتيبي — مطور</span></div>
+          <div style="display:flex; align-items:center; gap:10px;"><div style="width:32px;height:32px;border-radius:50%;background:var(--bg-accent);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--text-accent);">نو</div><span style="font-size:14px;">نورة القحطاني — مصممة</span></div>
+        </div>
+      </div>
+
+      <div id="panel-settings" class="panel" style="display:none;">
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <label style="display:flex; justify-content:space-between; align-items:center; font-size:14px;">الإشعارات<input type="checkbox" checked/></label>
+          <label style="display:flex; justify-content:space-between; align-items:center; font-size:14px;">الوضع الليلي<input type="checkbox"/></label>
+          <label style="display:flex; flex-direction:column; gap:6px; font-size:14px;">اسم العرض<input type="text" value="مستخدم جديد" style="width:100%; box-sizing:border-box;"/></label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+  document.querySelectorAll('.nav-item').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.nav-item').forEach(function(b){
+        b.style.background = 'transparent';
+        b.style.color = 'var(--text-secondary)';
+      });
+      btn.style.background = 'var(--fill-ghost-selected)';
+      btn.style.color = 'var(--text-primary)';
+      var section = btn.getAttribute('data-section');
+      document.querySelectorAll('.panel').forEach(function(p){ p.style.display = 'none'; });
+      document.getElementById('panel-' + section).style.display = 'block';
+    });
+  });
+  </script>
+
+</body>
+</html>
