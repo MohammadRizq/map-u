@@ -17,14 +17,6 @@
       --text-secondary: #64748b;
       --text-muted: #94a3b8;
       --radius: 8px;
-      
-      /* ألوان الحالات */
-      --text-accent: #2563eb;
-      --bg-accent: #dbeafe;
-      --text-warning: #d97706;
-      --bg-warning: #fef3c7;
-      --text-success: #16a34a;
-      --bg-success: #dcfce7;
     }
     
     body {
@@ -32,88 +24,132 @@
       margin: 20px;
     }
 
-    input[type="text"] {
-      padding: 8px;
+    /* تنسيقات الصورة والحركة (Animation) */
+    .building-img {
+      width: 100%;
+      max-width: 500px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.25s ease-in-out;
+      border: 1px solid var(--border);
+    }
+
+    .building-img.pop {
+      transform: scale(1.05);
+    }
+
+    /* تنسيقات عارض المستويات والأسهم */
+    #levels-viewer {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      background: var(--surface-1);
+      padding: 15px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    .arrows-container {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .arrow-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 16px;
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      outline: none;
+      background: #fff;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      color: var(--text-primary);
+      transition: background 0.2s;
+    }
+
+    .arrow-btn:hover {
+      background: var(--fill-ghost-selected);
+    }
+
+    .arrow-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   </style>
 </head>
 <body>
 
-  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;">لوحة تحكم فيها أقسام جانبية قابلة للاختيار: نظرة عامة، المشاريع، المهام، الفريق، الإعدادات</h2>
+  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;">لوحة تحكم خريطة الجامعة</h2>
   <div dir="rtl" style="display:flex; gap:0; min-height:420px; font-family:var(--font-sans); border:0.5px solid var(--border); border-radius:12px; overflow:hidden;">
     
     <div id="sidebar" style="width:180px; flex-shrink:0; background:var(--surface-1); border-left:0.5px solid var(--border); padding:12px 8px; display:flex; flex-direction:column; gap:2px;">
-      <button class="nav-item" data-section="overview" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius); background:var(--fill-ghost-selected); border:none; text-align:right; font-size:14px; color:var(--text-primary); cursor:pointer;">
-        <i class="ti ti-layout-dashboard" style="font-size:18px;" aria-hidden="true"></i>المقر الرئيسي
+      <button class="nav-item" data-section="overview" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius); background:transparent; border:none; text-align:right; font-size:14px; color:var(--text-secondary); cursor:pointer;">
+        <i class="ti ti-layout-dashboard" style="font-size:18px;"></i>المقر الرئيسي
       </button>
-      <button class="nav-item" data-section="projects" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius); background:transparent; border:none; text-align:right; font-size:14px; color:var(--text-secondary); cursor:pointer;">
-        <i class="ti ti-folder" style="font-size:18px;" aria-hidden="true"></i>مقر ابيار علي 172
+      <button class="nav-item" data-section="projects" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius); background:var(--fill-ghost-selected); border:none; text-align:right; font-size:14px; color:var(--text-primary); cursor:pointer;">
+        <i class="ti ti-folder" style="font-size:18px;"></i>مقر ابيار علي 172
       </button>
       <button class="nav-item" data-section="tasks" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius); background:transparent; border:none; text-align:right; font-size:14px; color:var(--text-secondary); cursor:pointer;">
-        <i class="ti ti-checklist" style="font-size:18px;" aria-hidden="true"></i>مقر كلية السلام
+        <i class="ti ti-checklist" style="font-size:18px;"></i>مقر كلية السلام
       </button>
     </div>
 
     <div style="flex:1; padding:20px;">
       
-      <div id="panel-overview" class="panel">
-        <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; margin-bottom:16px;">
-          <div style="background:var(--surface-1); border-radius:var(--radius); padding:1rem;">
-            <p style="font-size:13px; color:var(--text-muted); margin:0 0 6px;">المشاريع النشطة</p>
-            <p style="font-size:24px; font-weight:500; margin:0;">7</p>
-          </div>
-          <div style="background:var(--surface-1); border-radius:var(--radius); padding:1rem;">
-            <p style="font-size:13px; color:var(--text-muted); margin:0 0 6px;">مهام مكتملة</p>
-            <p style="font-size:24px; font-weight:500; margin:0;">34</p>
-          </div>
-          <div style="background:var(--surface-1); border-radius:var(--radius); padding:1rem;">
-            <p style="font-size:13px; color:var(--text-muted); margin:0 0 6px;">أعضاء الفريق</p>
-            <p style="font-size:24px; font-weight:500; margin:0;">5</p>
-          </div>
-        </div>
+      <div id="panel-overview" class="panel" style="display:none;">
         <p style="font-size:14px; color:var(--text-secondary); margin:0;">اختر قسمًا من القائمة الجانبية لعرض تفاصيله.</p>
       </div>
 
-      <div id="panel-projects" class="panel" style="display:none;">
-        <div style="display:flex; flex-direction:column; gap:8px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:var(--surface-1); border-radius:var(--radius);"><span style="font-size:14px;">إعادة تصميم الموقع</span><span style="font-size:12px; color:var(--text-accent); background:var(--bg-accent); padding:3px 10px; border-radius:var(--radius);">قيد التنفيذ</span></div>
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:var(--surface-1); border-radius:var(--radius);"><span style="font-size:14px;">تطبيق الجوال</span><span style="font-size:12px; color:var(--text-warning); background:var(--bg-warning); padding:3px 10px; border-radius:var(--radius);">متأخر</span></div>
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:var(--surface-1); border-radius:var(--radius);"><span style="font-size:14px;">حملة التسويق</span><span style="font-size:12px; color:var(--text-success); background:var(--bg-success); padding:3px 10px; border-radius:var(--radius);">مكتمل</span></div>
+      <!-- قسم مقر ابيار علي 172 -->
+      <div id="panel-projects" class="panel" style="display:block;">
+        <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; margin-bottom:16px;">
+          <div style="background:var(--surface-1); border-radius:var(--radius); padding:1rem;">
+            <p style="font-size:13px; color:var(--text-muted); margin:0 0 6px;">عدد الكليات</p>
+            <p style="font-size:24px; font-weight:500; margin:0;">3</p>
+          </div>
+          <div style="background:var(--surface-1); border-radius:var(--radius); padding:1rem;">
+            <p style="font-size:13px; color:var(--text-muted); margin:0 0 6px;">عدد الادوار</p>
+            <p style="font-size:24px; font-weight:500; margin:0;">3</p>
+          </div>
+          <div style="background:var(--surface-1); border-radius:var(--radius); padding:1rem;">
+            <p style="font-size:13px; color:var(--text-muted); margin:0 0 6px;">عدد القاعات</p>
+            <p style="font-size:24px; font-weight:500; margin:0;">120</p>
+          </div>
+        </div>
+        
+        <!-- الصورة الرئيسية للمبنى -->
+        <p style="font-size:14px; color:var(--text-secondary); margin:0 0 10px 0;">اضغط على الصورة أدناه لعرض مخططات الأدوار:</p>
+        <img id="main-map-img" src="https://k.top4top.io/p_3897iqqsm1.jpg" class="building-img" alt="صورة المبنى الرئيسي">
+        
+        <!-- عارض المستويات (يظهر بعد النقر على الصورة) -->
+        <div id="levels-viewer">
+          <div class="arrows-container">
+            <button id="btn-up" class="arrow-btn"><i class="ti ti-arrow-up"></i> الدور الأعلى</button>
+            <button id="btn-down" class="arrow-btn"><i class="ti ti-arrow-down"></i> الدور الأسفل</button>
+            <button id="btn-back" class="arrow-btn" style="color: #d97706; margin-right: auto;">رجوع للمبنى</button>
+          </div>
+          
+          <!-- صورة المستوى الحالي -->
+          <img id="current-level-img" src="" style="width: 100%; max-width: 500px; height: 300px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border);">
+          <p id="level-indicator" style="margin-top: 10px; font-weight: bold; color: var(--text-primary);"></p>
         </div>
       </div>
 
       <div id="panel-tasks" class="panel" style="display:none;">
-        <div style="display:flex; flex-direction:column; gap:6px;">
-          <label style="display:flex; align-items:center; gap:8px; font-size:14px; padding:6px 0;"><input type="checkbox" checked/>مراجعة تصميم الصفحة الرئيسية</label>
-          <label style="display:flex; align-items:center; gap:8px; font-size:14px; padding:6px 0;"><input type="checkbox"/>تحديث محتوى القسم الجانبي</label>
-          <label style="display:flex; align-items:center; gap:8px; font-size:14px; padding:6px 0;"><input type="checkbox"/>اجتماع مع الفريق التقني</label>
-          <label style="display:flex; align-items:center; gap:8px; font-size:14px; padding:6px 0;"><input type="checkbox" checked/>إرسال التقرير الأسبوعي</label>
-        </div>
-      </div>
-
-      <div id="panel-team" class="panel" style="display:none;">
-        <div style="display:flex; flex-direction:column; gap:8px;">
-          <div style="display:flex; align-items:center; gap:10px;"><div style="width:32px;height:32px;border-radius:50%;background:var(--bg-accent);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--text-accent);">سا</div><span style="font-size:14px;">سارة أحمد — مديرة المنتج</span></div>
-          <div style="display:flex; align-items:center; gap:10px;"><div style="width:32px;height:32px;border-radius:50%;background:var(--bg-accent);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--text-accent);">فه</div><span style="font-size:14px;">فهد العتيبي — مطور</span></div>
-          <div style="display:flex; align-items:center; gap:10px;"><div style="width:32px;height:32px;border-radius:50%;background:var(--bg-accent);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--text-accent);">نو</div><span style="font-size:14px;">نورة القحطاني — مصممة</span></div>
-        </div>
-      </div>
-
-      <div id="panel-settings" class="panel" style="display:none;">
-        <div style="display:flex; flex-direction:column; gap:12px;">
-          <label style="display:flex; justify-content:space-between; align-items:center; font-size:14px;">الإشعارات<input type="checkbox" checked/></label>
-          <label style="display:flex; justify-content:space-between; align-items:center; font-size:14px;">الوضع الليلي<input type="checkbox"/></label>
-          <label style="display:flex; flex-direction:column; gap:6px; font-size:14px;">اسم العرض<input type="text" value="مستخدم جديد" style="width:100%; box-sizing:border-box;"/></label>
-        </div>
+        <p style="font-size:14px; color:var(--text-secondary); margin:0;">محتوى كلية السلام.</p>
       </div>
 
     </div>
   </div>
 
   <script>
+  // التبديل بين الأقسام
   document.querySelectorAll('.nav-item').forEach(function(btn){
     btn.addEventListener('click', function(){
       document.querySelectorAll('.nav-item').forEach(function(b){
@@ -127,6 +163,65 @@
       document.getElementById('panel-' + section).style.display = 'block';
     });
   });
+
+  // روابط صور المخططات (Blueprints) للأدوار
+  const levelImages = [
+    "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80", // الدور الأرضي
+    "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80", // الدور الأول
+    "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80"  // الدور الثاني
+  ];
+  const levelNames = ["الدور الأرضي", "الدور الأول", "الدور الثاني"];
+  let currentLevel = 0; 
+
+  const mainMapImg = document.getElementById('main-map-img');
+  const levelsViewer = document.getElementById('levels-viewer');
+  const currentLevelImg = document.getElementById('current-level-img');
+  const levelIndicator = document.getElementById('level-indicator');
+  const btnUp = document.getElementById('btn-up');
+  const btnDown = document.getElementById('btn-down');
+  const btnBack = document.getElementById('btn-back');
+
+  // عند النقر على الصورة الرئيسية
+  mainMapImg.addEventListener('click', function() {
+    mainMapImg.classList.add('pop');
+    
+    setTimeout(function() {
+      mainMapImg.classList.remove('pop');
+      mainMapImg.style.display = 'none'; 
+      levelsViewer.style.display = 'flex'; 
+      updateLevelView(); 
+    }, 250); 
+  });
+
+  // التنقل بين الأدوار
+  btnUp.addEventListener('click', function() {
+    if (currentLevel < levelImages.length - 1) {
+      currentLevel++;
+      updateLevelView();
+    }
+  });
+
+  btnDown.addEventListener('click', function() {
+    if (currentLevel > 0) {
+      currentLevel--;
+      updateLevelView();
+    }
+  });
+
+  // الرجوع
+  btnBack.addEventListener('click', function() {
+    levelsViewer.style.display = 'none';
+    mainMapImg.style.display = 'block';
+    currentLevel = 0; 
+  });
+
+  function updateLevelView() {
+    currentLevelImg.src = levelImages[currentLevel];
+    levelIndicator.innerText = levelNames[currentLevel];
+    
+    btnDown.disabled = (currentLevel === 0);
+    btnUp.disabled = (currentLevel === levelImages.length - 1);
+  }
   </script>
 
 </body>
