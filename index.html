@@ -29,6 +29,8 @@
       margin: 0;
       padding: 20px;
       font-family: var(--font-sans);
+      /* انتقال سلس عند تغيير الوضع */
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     /* تخطيط الصفحة الأساسي (Layout) */
@@ -300,6 +302,28 @@
         margin-right: 0 !important;
       }
     }
+
+    /* ==========================================
+       إعدادات الوضع الداكن
+       ========================================== */
+    body.dark-mode {
+      background-color: #0f172a;
+      --border: #334155;
+      --surface-1: #1e293b;
+      --fill-ghost-selected: #334155;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+    }
+
+    body.dark-mode .arrow-btn {
+      background: #1e293b;
+      color: var(--text-primary);
+    }
+
+    body.dark-mode .arrow-btn:hover {
+      background: var(--fill-ghost-selected);
+    }
   </style>
 </head>
 <body>
@@ -320,10 +344,18 @@
 
   <h1 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;">لوحة تحكم خريطة الجامعة</h1>
   
-  <!-- زر إظهار القائمة -->
-  <button id="toggle-sidebar" class="arrow-btn">
-    <i class="ti ti-menu-2"></i> القائمة الجانبية
-  </button>
+  <!-- أزرار التحكم العلوية -->
+  <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+    <!-- زر إظهار القائمة -->
+    <button id="toggle-sidebar" class="arrow-btn">
+      <i class="ti ti-menu-2"></i> القائمة الجانبية
+    </button>
+    
+    <!-- زر الوضع الداكن -->
+    <button id="toggle-dark-mode" class="arrow-btn">
+      <i class="ti ti-moon"></i> الوضع الداكن
+    </button>
+  </div>
 
   <!-- الحاوية الرئيسية (Layout) -->
   <div class="dashboard-container">
@@ -534,6 +566,30 @@
     if(currentZoom > 50) {
       currentZoom -= 25;
       modalImg.style.width = currentZoom + '%';
+    }
+  });
+
+  // ==========================================
+  // 4. نظام الوضع الداكن (Dark Mode)
+  // ==========================================
+  const darkModeBtn = document.getElementById('toggle-dark-mode');
+  
+  // التحقق مما إذا كان المستخدم قد اختار الوضع الداكن مسبقاً
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    darkModeBtn.innerHTML = '<i class="ti ti-sun"></i> الوضع الفاتح';
+  }
+
+  darkModeBtn.addEventListener('click', function() {
+    document.body.classList.toggle('dark-mode');
+    
+    // تغيير أيقونة ونص الزر وحفظ الإعدادات
+    if (document.body.classList.contains('dark-mode')) {
+      localStorage.setItem('theme', 'dark');
+      darkModeBtn.innerHTML = '<i class="ti ti-sun"></i> الوضع الفاتح';
+    } else {
+      localStorage.setItem('theme', 'light');
+      darkModeBtn.innerHTML = '<i class="ti ti-moon"></i> الوضع الداكن';
     }
   });
   </script>
