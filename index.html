@@ -1,9 +1,3 @@
-لجعل صور الأدوار ثابتة (لا يتم قصها أو تشويهها) ولعرضها بجودة ومقاس 4K (3840 × 2160 بكسل) عند التكبير، قمت بإجراء التعديلات التالية على الكود الخاص بك:
- * تغيير object-fit: cover إلى object-fit: contain: هذا يضمن أن الصورة كاملة ستكون "ثابتة" وظاهرة داخل الإطار دون أن يتم قص أطرافها.
- * تعديل نافذة العرض (Modal): تم تعديل خصائص الحاوية لتسمح بالتمرير (Scroll) في جميع الاتجاهات عند تكبير الصورة، وتم تعيين الحد الأقصى لعرض الصورة ليكون 3840px (وهو مقاس 4K الحقيقي).
- * تطوير نظام التكبير (Zoom): تم تعديل أزرار التكبير لتسمح بتكبير الصورة بنسب عالية جداً (تصل إلى 400% أو أكثر) لتتمكن من رؤية تفاصيل 4K بوضوح.
-(ملاحظة مهمة: للحصول على جودة 4K حقيقية، يجب أن تكون الصور المرفوعة على روابط top4top مرفوعة أساساً بدقة 4K).
-إليك الكود كاملاً بعد التعديل، يمكنك نسخه ولصقه مباشرة:
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -35,6 +29,7 @@
       margin: 0;
       padding: 20px;
       font-family: var(--font-sans);
+      /* انتقال سلس عند تغيير الوضع */
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
@@ -169,14 +164,13 @@
 
     .building-img, #current-level-img {
       width: 100%;
-      height: 550px; /* زيادة الارتفاع لتبدو أوضح */
-      object-fit: contain; /* ثابتة: لا يتم قصها أبداً */
+      height: 400px;
+      object-fit: cover;
       border-radius: var(--radius);
       cursor: pointer;
       transition: transform 0.25s ease-in-out, box-shadow 0.2s;
       border: 1px solid var(--border);
       display: block;
-      background-color: var(--surface-1); /* خلفية في حال كانت الصورة لا تملأ الشاشة */
     }
 
     #current-level-img {
@@ -217,7 +211,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(15, 23, 42, 0.98);
+      background: rgba(15, 23, 42, 0.95);
       z-index: 9999;
       flex-direction: column;
     }
@@ -227,7 +221,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 15px 20px;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.6);
       color: white;
     }
 
@@ -249,22 +243,20 @@
       gap: 5px;
     }
 
-    /* حاوية الصورة في وضع التكبير مصممة لدعم دقة 4K */
     #modal-img-container {
       flex: 1;
-      overflow: auto; /* السماح بالسحب (Scroll) يمين ويسار وفوق وتحت */
+      overflow: auto;
       display: flex;
-      align-items: flex-start; /* لمنع قص الصورة من الأعلى عند التكبير */
+      align-items: center;
       justify-content: center;
       padding: 20px;
     }
 
     #modal-img {
-      transition: width 0.3s ease-in-out;
-      width: 100%;
-      max-width: 3840px; /* الحد الأقصى للمقاس هو 4K */
+      transition: width 0.2s ease-in-out;
+      width: 90%;
+      max-width: none;
       border-radius: var(--radius);
-      object-fit: contain;
     }
 
     @keyframes fadeIn {
@@ -272,19 +264,37 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* التجاوب مع الشاشات الصغيرة */
+    /* ==========================================
+       التجاوب مع الشاشات الصغيرة (الجوال)
+       ========================================== */
     @media (max-width: 768px) {
-      body { padding: 15px; }
-      .dashboard-container { flex-direction: column; }
+      body {
+        padding: 15px;
+      }
+      
+      .dashboard-container {
+        flex-direction: column; /* تحويل التخطيط لعمودي */
+      }
+
       .sidebar {
         width: 100%;
         border-left: none;
         border-bottom: 1px solid var(--border);
         padding: 15px;
       }
-      .content-area { padding: 15px; }
-      .building-img, #current-level-img { height: 300px; }
-      .arrows-container { justify-content: center; }
+
+      .content-area {
+        padding: 15px;
+      }
+
+      .building-img, #current-level-img {
+        height: 220px; /* تصغير ارتفاع الصور في الجوال */
+      }
+
+      .arrows-container {
+        justify-content: center;
+      }
+
       #btn-back {
         width: 100%;
         justify-content: center;
@@ -293,7 +303,9 @@
       }
     }
 
-    /* إعدادات الوضع الداكن */
+    /* ==========================================
+       إعدادات الوضع الداكن
+       ========================================== */
     body.dark-mode {
       background-color: #0f172a;
       --border: #334155;
@@ -316,7 +328,7 @@
 </head>
 <body>
 
-  <!-- نافذة تكبير الصور (4K Modal) -->
+  <!-- نافذة تكبير الصور -->
   <div id="image-modal">
     <div class="modal-header">
       <div class="modal-controls">
@@ -334,9 +346,12 @@
   
   <!-- أزرار التحكم العلوية -->
   <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+    <!-- زر إظهار القائمة -->
     <button id="toggle-sidebar" class="arrow-btn">
       <i class="ti ti-menu-2"></i> القائمة الجانبية
     </button>
+    
+    <!-- زر الوضع الداكن -->
     <button id="toggle-dark-mode" class="arrow-btn">
       <i class="ti ti-moon"></i> الوضع الداكن
     </button>
@@ -430,6 +445,7 @@
   const sidebar = document.getElementById('sidebar');
   const toggleSidebarBtn = document.getElementById('toggle-sidebar');
 
+  // إخفاء القائمة في الجوال عند البداية فقط كترتيب شكلي
   if (window.innerWidth <= 768) {
       sidebar.classList.add('sidebar-hidden');
   }
@@ -440,15 +456,19 @@
 
   document.querySelectorAll('.nav-item').forEach(function(btn){
     btn.addEventListener('click', function(){
+      // إزالة التفعيل عن جميع الأزرار
       document.querySelectorAll('.nav-item').forEach(function(b){
         b.classList.remove('active');
       });
+      // تفعيل الزر المضغوط
       btn.classList.add('active');
       
+      // تبديل المحتوى
       var section = btn.getAttribute('data-section');
       document.querySelectorAll('.panel').forEach(function(p){ p.style.display = 'none'; });
       document.getElementById('panel-' + section).style.display = 'block';
 
+      // إخفاء القائمة الجانبية بعد الاختيار (في الجوال فقط)
       if (window.innerWidth <= 768) {
          sidebar.classList.add('sidebar-hidden');
       }
@@ -459,9 +479,9 @@
   // 2. نظام صور الأدوار والمخططات
   // ==========================================
   const levelImages = [
-    "https://c.top4top.io/p_3897ybkk61.jpg",
-    "https://b.top4top.io/p_3897zgg9h1.jpg",
-    "https://c.top4top.io/p_38970eadv2.jpg"
+    "https://c.top4top.io/p_3897ybkk61.jpg", // الدور الأرضي
+    "https://b.top4top.io/p_3897zgg9h1.jpg", // الدور الأول
+    "https://c.top4top.io/p_38970eadv2.jpg"  // الدور الثاني
   ];
   const levelNames = ["الدور الأرضي", "الدور الأول", "الدور الثاني"];
   let currentLevel = 0; 
@@ -475,6 +495,7 @@
   const btnDown = document.getElementById('btn-down');
   const btnBack = document.getElementById('btn-back');
 
+  // عند النقر على الصورة الرئيسية
   mainMapImg.addEventListener('click', function() {
     mainMapImg.classList.add('pop');
     setTimeout(function() {
@@ -513,7 +534,7 @@
   }
 
   // ==========================================
-  // 3. نظام نافذة التكبير (Modal Zoom) - معدل لدقة 4K
+  // 3. نظام نافذة التكبير (Modal Zoom)
   // ==========================================
   const imageModal = document.getElementById('image-modal');
   const modalImg = document.getElementById('modal-img');
@@ -521,8 +542,8 @@
   const zoomInBtn = document.getElementById('zoom-in');
   const zoomOutBtn = document.getElementById('zoom-out');
   
-  // البداية بعرض الشاشة الكاملة
-  let defaultZoom = 100;
+  // نحدد نسبة التكبير الابتدائية بناءً على حجم الشاشة (في الجوال 100%، في اللاب توب 80%)
+  let defaultZoom = window.innerWidth <= 768 ? 100 : 80;
   let currentZoom = defaultZoom; 
 
   currentLevelImg.addEventListener('click', function() {
@@ -537,16 +558,13 @@
   });
 
   zoomInBtn.addEventListener('click', function() {
-    // يسمح بالتكبير حتى 500% لاستعراض تفاصيل 4K بشكل ممتاز
-    if (currentZoom < 500) {
-      currentZoom += 50;
-      modalImg.style.width = currentZoom + '%';
-    }
+    currentZoom += 25;
+    modalImg.style.width = currentZoom + '%';
   });
 
   zoomOutBtn.addEventListener('click', function() {
-    if(currentZoom > 100) {
-      currentZoom -= 50;
+    if(currentZoom > 50) {
+      currentZoom -= 25;
       modalImg.style.width = currentZoom + '%';
     }
   });
@@ -556,6 +574,7 @@
   // ==========================================
   const darkModeBtn = document.getElementById('toggle-dark-mode');
   
+  // التحقق مما إذا كان المستخدم قد اختار الوضع الداكن مسبقاً
   if (localStorage.getItem('theme') === 'dark') {
     document.body.classList.add('dark-mode');
     darkModeBtn.innerHTML = '<i class="ti ti-sun"></i> الوضع الفاتح';
@@ -564,6 +583,7 @@
   darkModeBtn.addEventListener('click', function() {
     document.body.classList.toggle('dark-mode');
     
+    // تغيير أيقونة ونص الزر وحفظ الإعدادات
     if (document.body.classList.contains('dark-mode')) {
       localStorage.setItem('theme', 'dark');
       darkModeBtn.innerHTML = '<i class="ti ti-sun"></i> الوضع الفاتح';
@@ -576,4 +596,3 @@
 
 </body>
 </html>
-
