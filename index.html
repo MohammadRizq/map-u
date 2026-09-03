@@ -313,7 +313,7 @@
   });
 
   const levelImages = [
-    "https://c.top4top.io/p_3897ybkk61.jpg", 
+    "https://a.top4top.io/p_3898fh2yv1.jpg", 
     "https://b.top4top.io/p_3897zgg9h1.jpg", 
     "https://c.top4top.io/p_38970eadv2.jpg"  
   ];
@@ -326,36 +326,40 @@
     - يمكنك إزالة الـ clipPath لأي جزء ليعود مربعاً عادياً، أو تغييره لرسم أشكال أخرى.
   */
   const myCustomShape = 'polygon(0% 0%, 100% 30%, 100% 100%, 0% 100%)';
+  // الشكل المعقد (ذو المنحنى والبروز الأيسر)
+  const fd = 'polygon(32% 0%, 42% 4%, 55% 6%, 68% 10%, 80% 17%, 89% 26%, 94% 31%, 100% 36%, 100% 100%, 32% 100%, 32% 77%, 0% 77%, 0% 57%, 32% 57%)';
 
     const dsds = 'circle(100% at 100% 100%)';
 
   const interactiveZones = {
     0: [
-      { top: '10%', left: '10%', width: '15%', height: '25%', clipPath: dsds, title: 'المدخل الرئيسي', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+1' },
-      { top: '10%', left: '30%', width: '15%', height: '25%', clipPath: myCustomShape, title: 'المسرح', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+2' },
-      { top: '10%', left: '70%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'مكاتب الإدارة', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+3' },
-      { top: '40%', left: '10%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'قاعة 1', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+4' },
-      { top: '40%', left: '70%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'قاعة 2', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+5' },
-      { top: '70%', left: '20%', width: '25%', height: '25%', clipPath: myCustomShape, title: 'الكافتيريا', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+6' },
-      { top: '70%', left: '55%', width: '25%', height: '25%', clipPath: myCustomShape, title: 'الساحة الخارجية', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+7' },
+      /*{ top: '10%', left: '10%', width: '15%', height: '25%', clipPath: dsds, title: 'المدخل الرئيسي', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=Ground+Floor+Part+1' },
+      */
+      { top: '0%', left: '39.2%', width: '15.35%', height: '48.3%', clipPath: fd, title: 'جناح A', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=Ground+Floor+Part+2' },
+      { top: '0%', left: '54.6%', width: '15.35%', height: '48.3%', clipPath: fd, title: 'جناح B', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=Ground+Floor+Part+3' },
+      { top: '0%', left: '69.6%', width: '15.35%', height: '48.3%', clipPath: fd, title: 'جناح C', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=Ground+Floor+Part+4' },
+      { top: '0%', left: '84.6%', width: '15.35%', height: '48.3%', clipPath: fd, title: 'جناح D', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=Ground+Floor+Part+5' },
+      /*{ top: '70%', left: '20%', width: '25%', height: '25%', clipPath: myCustomShape, title: 'الكافتيريا', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=Ground+Floor+Part+6' },
+      { top: '70%', left: '55%', width: '25%', height: '25%', clipPath: myCustomShape, title: 'الساحة الخارجية', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=Ground+Floor+Part+7' },
+       */
     ],
     1: [
-      { top: '15%', left: '15%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'معمل الحاسب 1', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+1' },
-      { top: '15%', left: '40%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'معمل الحاسب 2', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+2' },
-      { top: '15%', left: '65%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'مكتبة الدور الأول', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+3' },
-      { top: '50%', left: '15%', width: '15%', height: '30%', clipPath: myCustomShape, title: 'قاعة المحاضرات A', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+4' },
-      { top: '50%', left: '35%', width: '15%', height: '30%', clipPath: myCustomShape, title: 'قاعة المحاضرات B', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+5' },
-      { top: '50%', left: '55%', width: '15%', height: '30%', clipPath: myCustomShape, title: 'قاعة المحاضرات C', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+6' },
-      { top: '50%', left: '75%', width: '15%', height: '30%', clipPath: myCustomShape, title: 'دورات المياه', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+7' },
+      { top: '15%', left: '15%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'معمل الحاسب 1', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=First+Floor+Part+1' },
+      { top: '15%', left: '40%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'معمل الحاسب 2', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=First+Floor+Part+2' },
+      { top: '15%', left: '65%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'مكتبة الدور الأول', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=First+Floor+Part+3' },
+      { top: '50%', left: '15%', width: '15%', height: '30%', clipPath: myCustomShape, title: 'قاعة المحاضرات A', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=First+Floor+Part+4' },
+      { top: '50%', left: '35%', width: '15%', height: '30%', clipPath: myCustomShape, title: 'قاعة المحاضرات B', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=First+Floor+Part+5' },
+      { top: '50%', left: '55%', width: '15%', height: '30%', clipPath: myCustomShape, title: 'قاعة المحاضرات C', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=First+Floor+Part+6' },
+      { top: '50%', left: '75%', width: '15%', height: '30%', clipPath: myCustomShape, title: 'دورات المياه', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=First+Floor+Part+7' },
     ],
     2: [
-      { top: '20%', left: '10%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'مكاتب الدكاترة 1', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+1' },
-      { top: '20%', left: '40%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'مكاتب الدكاترة 2', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+2' },
-      { top: '20%', left: '70%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'مكاتب الدكاترة 3', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+3' },
-      { top: '50%', left: '10%', width: '35%', height: '30%', clipPath: myCustomShape, title: 'المعمل المتقدم', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+4' },
-      { top: '50%', left: '55%', width: '35%', height: '30%', clipPath: myCustomShape, title: 'قاعة المناقشات', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+5' },
-      { top: '80%', left: '20%', width: '20%', height: '15%', clipPath: myCustomShape, title: 'استراحة الطالبات', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+6' },
-      { top: '80%', left: '60%', width: '20%', height: '15%', clipPath: myCustomShape, title: 'المصلى', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+7' },
+      { top: '20%', left: '10%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'مكاتب الدكاترة 1', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=Second+Floor+Part+1' },
+      { top: '20%', left: '40%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'مكاتب الدكاترة 2', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=Second+Floor+Part+2' },
+      { top: '20%', left: '70%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'مكاتب الدكاترة 3', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=Second+Floor+Part+3' },
+      { top: '50%', left: '10%', width: '35%', height: '30%', clipPath: myCustomShape, title: 'المعمل المتقدم', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=Second+Floor+Part+4' },
+      { top: '50%', left: '55%', width: '35%', height: '30%', clipPath: myCustomShape, title: 'قاعة المناقشات', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=Second+Floor+Part+5' },
+      { top: '80%', left: '20%', width: '20%', height: '15%', clipPath: myCustomShape, title: 'استراحة الطالبات', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=Second+Floor+Part+6' },
+      { top: '80%', left: '60%', width: '20%', height: '15%', clipPath: myCustomShape, title: 'المصلى', targetImg: 'https://j.top4top.io/p_3898cr9wq1.jpg?text=Second+Floor+Part+7' },
     ]
   };
 
