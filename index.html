@@ -29,7 +29,6 @@
       margin: 0;
       padding: 20px;
       font-family: var(--font-sans);
-      /* انتقال سلس عند تغيير الوضع */
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
@@ -96,7 +95,7 @@
     .content-area {
       flex: 1;
       padding: 25px;
-      overflow-x: hidden;
+      overflow-x: hidden; /* لمنع أي خروج عن النص */
     }
 
     .panel {
@@ -157,20 +156,23 @@
       cursor: not-allowed;
     }
 
-    /* الصور (المبنى والمخططات) */
+    /* الصور (المبنى والمخططات) - التعديل الجذري هنا لمنع القص */
     .image-container {
       margin-top: 15px;
+      text-align: center;
     }
 
     .building-img, #current-level-img {
       width: 100%;
-      height: 400px;
-      object-fit: cover;
+      height: auto; /* يجعل الارتفاع يتناسب مع العرض تلقائياً */
+      max-height: 70vh; /* لا تتجاوز الصورة 70% من ارتفاع الشاشة */
+      object-fit: contain; /* تضمن عرض الصورة كاملة 100% */
       border-radius: var(--radius);
       cursor: pointer;
       transition: transform 0.25s ease-in-out, box-shadow 0.2s;
       border: 1px solid var(--border);
       display: block;
+      margin: 0 auto; /* توسيط الصورة */
     }
 
     #current-level-img {
@@ -255,6 +257,8 @@
     #modal-img {
       transition: width 0.2s ease-in-out;
       width: 90%;
+      height: auto; /* ضمان عدم تشوه الصورة عند التكبير */
+      object-fit: contain;
       max-width: none;
       border-radius: var(--radius);
     }
@@ -273,7 +277,7 @@
       }
       
       .dashboard-container {
-        flex-direction: column; /* تحويل التخطيط لعمودي */
+        flex-direction: column;
       }
 
       .sidebar {
@@ -287,8 +291,10 @@
         padding: 15px;
       }
 
+      /* تعديل الصور في الجوال لتكون كاملة */
       .building-img, #current-level-img {
-        height: 220px; /* تصغير ارتفاع الصور في الجوال */
+        height: auto; 
+        max-height: 50vh;
       }
 
       .arrows-container {
@@ -445,7 +451,6 @@
   const sidebar = document.getElementById('sidebar');
   const toggleSidebarBtn = document.getElementById('toggle-sidebar');
 
-  // إخفاء القائمة في الجوال عند البداية فقط كترتيب شكلي
   if (window.innerWidth <= 768) {
       sidebar.classList.add('sidebar-hidden');
   }
@@ -456,19 +461,15 @@
 
   document.querySelectorAll('.nav-item').forEach(function(btn){
     btn.addEventListener('click', function(){
-      // إزالة التفعيل عن جميع الأزرار
       document.querySelectorAll('.nav-item').forEach(function(b){
         b.classList.remove('active');
       });
-      // تفعيل الزر المضغوط
       btn.classList.add('active');
       
-      // تبديل المحتوى
       var section = btn.getAttribute('data-section');
       document.querySelectorAll('.panel').forEach(function(p){ p.style.display = 'none'; });
       document.getElementById('panel-' + section).style.display = 'block';
 
-      // إخفاء القائمة الجانبية بعد الاختيار (في الجوال فقط)
       if (window.innerWidth <= 768) {
          sidebar.classList.add('sidebar-hidden');
       }
@@ -479,9 +480,9 @@
   // 2. نظام صور الأدوار والمخططات
   // ==========================================
   const levelImages = [
-    "https://c.top4top.io/p_3897ybkk61.jpg", // الدور الأرضي
-    "https://b.top4top.io/p_3897zgg9h1.jpg", // الدور الأول
-    "https://c.top4top.io/p_38970eadv2.jpg"  // الدور الثاني
+    "https://c.top4top.io/p_3897ybkk61.jpg", 
+    "https://b.top4top.io/p_3897zgg9h1.jpg", 
+    "https://c.top4top.io/p_38970eadv2.jpg"  
   ];
   const levelNames = ["الدور الأرضي", "الدور الأول", "الدور الثاني"];
   let currentLevel = 0; 
@@ -495,7 +496,6 @@
   const btnDown = document.getElementById('btn-down');
   const btnBack = document.getElementById('btn-back');
 
-  // عند النقر على الصورة الرئيسية
   mainMapImg.addEventListener('click', function() {
     mainMapImg.classList.add('pop');
     setTimeout(function() {
@@ -542,7 +542,6 @@
   const zoomInBtn = document.getElementById('zoom-in');
   const zoomOutBtn = document.getElementById('zoom-out');
   
-  // نحدد نسبة التكبير الابتدائية بناءً على حجم الشاشة (في الجوال 100%، في اللاب توب 80%)
   let defaultZoom = window.innerWidth <= 768 ? 100 : 80;
   let currentZoom = defaultZoom; 
 
@@ -574,7 +573,6 @@
   // ==========================================
   const darkModeBtn = document.getElementById('toggle-dark-mode');
   
-  // التحقق مما إذا كان المستخدم قد اختار الوضع الداكن مسبقاً
   if (localStorage.getItem('theme') === 'dark') {
     document.body.classList.add('dark-mode');
     darkModeBtn.innerHTML = '<i class="ti ti-sun"></i> الوضع الفاتح';
@@ -583,7 +581,6 @@
   darkModeBtn.addEventListener('click', function() {
     document.body.classList.toggle('dark-mode');
     
-    // تغيير أيقونة ونص الزر وحفظ الإعدادات
     if (document.body.classList.contains('dark-mode')) {
       localStorage.setItem('theme', 'dark');
       darkModeBtn.innerHTML = '<i class="ti ti-sun"></i> الوضع الفاتح';
