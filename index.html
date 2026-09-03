@@ -95,7 +95,7 @@
     .content-area {
       flex: 1;
       padding: 25px;
-      overflow-x: hidden; /* لمنع أي خروج عن النص */
+      overflow-x: hidden;
     }
 
     .panel {
@@ -156,7 +156,7 @@
       cursor: not-allowed;
     }
 
-    /* الصور (المبنى والمخططات) - التعديل الجذري هنا لمنع القص */
+    /* الصور (المبنى والمخططات) */
     .image-container {
       margin-top: 15px;
       text-align: center;
@@ -164,19 +164,18 @@
 
     .building-img, #current-level-img {
       width: 100%;
-      height: auto; /* يجعل الارتفاع يتناسب مع العرض تلقائياً */
-      max-height: 70vh; /* لا تتجاوز الصورة 70% من ارتفاع الشاشة */
-      object-fit: contain; /* تضمن عرض الصورة كاملة 100% */
+      height: auto;
+      max-height: 70vh;
+      object-fit: contain;
       border-radius: var(--radius);
-      cursor: pointer;
       transition: transform 0.25s ease-in-out, box-shadow 0.2s;
       border: 1px solid var(--border);
       display: block;
-      margin: 0 auto; /* توسيط الصورة */
+      margin: 0 auto;
     }
 
-    #current-level-img {
-      cursor: zoom-in;
+    .building-img {
+      cursor: pointer;
     }
 
     .building-img:hover {
@@ -203,64 +202,6 @@
       gap: 10px;
       margin-bottom: 20px;
       flex-wrap: wrap;
-    }
-
-    /* نافذة التكبير (Modal) */
-    #image-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(15, 23, 42, 0.95);
-      z-index: 9999;
-      flex-direction: column;
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 20px;
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-    }
-
-    .modal-controls {
-      display: flex;
-      gap: 10px;
-    }
-
-    .modal-btn {
-      background: #fff;
-      border: none;
-      padding: 10px 15px;
-      border-radius: var(--radius);
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    #modal-img-container {
-      flex: 1;
-      overflow: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    #modal-img {
-      transition: width 0.2s ease-in-out;
-      width: 90%;
-      height: auto; /* ضمان عدم تشوه الصورة عند التكبير */
-      object-fit: contain;
-      max-width: none;
-      border-radius: var(--radius);
     }
 
     @keyframes fadeIn {
@@ -291,7 +232,6 @@
         padding: 15px;
       }
 
-      /* تعديل الصور في الجوال لتكون كاملة */
       .building-img, #current-level-img {
         height: auto; 
         max-height: 50vh;
@@ -333,20 +273,6 @@
   </style>
 </head>
 <body>
-
-  <!-- نافذة تكبير الصور -->
-  <div id="image-modal">
-    <div class="modal-header">
-      <div class="modal-controls">
-        <button class="modal-btn" id="zoom-in" title="تكبير"><i class="ti ti-zoom-in"></i> تكبير</button>
-        <button class="modal-btn" id="zoom-out" title="تصغير"><i class="ti ti-zoom-out"></i> تصغير</button>
-      </div>
-      <button class="modal-btn" id="close-modal" style="color: #ef4444;"><i class="ti ti-x"></i> إغلاق</button>
-    </div>
-    <div id="modal-img-container">
-      <img id="modal-img" src="" alt="صورة مكبرة">
-    </div>
-  </div>
 
   <h1 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;">لوحة تحكم خريطة الجامعة</h1>
   
@@ -426,9 +352,6 @@
           </div>
           
           <div style="text-align: center;">
-            <p style="font-size:14px; color:var(--text-secondary); margin: 0 0 12px 0;">
-              <i class="ti ti-zoom-in"></i> اضغط على المخطط لتكبيره
-            </p>
             <img id="current-level-img" src="" alt="مخطط الدور">
             <h3 id="level-indicator" style="margin: 15px 0 0 0; color: var(--text-primary);"></h3>
           </div>
@@ -534,42 +457,7 @@
   }
 
   // ==========================================
-  // 3. نظام نافذة التكبير (Modal Zoom)
-  // ==========================================
-  const imageModal = document.getElementById('image-modal');
-  const modalImg = document.getElementById('modal-img');
-  const closeModalBtn = document.getElementById('close-modal');
-  const zoomInBtn = document.getElementById('zoom-in');
-  const zoomOutBtn = document.getElementById('zoom-out');
-  
-  let defaultZoom = window.innerWidth <= 768 ? 100 : 80;
-  let currentZoom = defaultZoom; 
-
-  currentLevelImg.addEventListener('click', function() {
-    modalImg.src = this.src;
-    currentZoom = defaultZoom;
-    modalImg.style.width = currentZoom + '%';
-    imageModal.style.display = 'flex';
-  });
-
-  closeModalBtn.addEventListener('click', function() {
-    imageModal.style.display = 'none';
-  });
-
-  zoomInBtn.addEventListener('click', function() {
-    currentZoom += 25;
-    modalImg.style.width = currentZoom + '%';
-  });
-
-  zoomOutBtn.addEventListener('click', function() {
-    if(currentZoom > 50) {
-      currentZoom -= 25;
-      modalImg.style.width = currentZoom + '%';
-    }
-  });
-
-  // ==========================================
-  // 4. نظام الوضع الداكن (Dark Mode)
+  // 3. نظام الوضع الداكن (Dark Mode)
   // ==========================================
   const darkModeBtn = document.getElementById('toggle-dark-mode');
   
