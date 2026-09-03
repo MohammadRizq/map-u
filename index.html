@@ -20,9 +20,7 @@
       --primary-color: #d97706;
     }
     
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       background-color: #ffffff;
@@ -55,9 +53,7 @@
       transition: all 0.3s ease;
     }
 
-    .sidebar-hidden {
-      display: none !important;
-    }
+    .sidebar-hidden { display: none !important; }
 
     .nav-item {
       display: flex;
@@ -75,19 +71,9 @@
       transition: background 0.2s, color 0.2s;
     }
 
-    .nav-item i {
-      font-size: 20px;
-    }
-
-    .nav-item:hover {
-      background: rgba(226, 232, 240, 0.5);
-    }
-
-    .nav-item.active {
-      background: var(--fill-ghost-selected);
-      color: var(--text-primary);
-      font-weight: 500;
-    }
+    .nav-item i { font-size: 20px; }
+    .nav-item:hover { background: rgba(226, 232, 240, 0.5); }
+    .nav-item.active { background: var(--fill-ghost-selected); color: var(--text-primary); font-weight: 500; }
 
     .content-area {
       flex: 1;
@@ -95,9 +81,7 @@
       overflow-x: hidden;
     }
 
-    .panel {
-      animation: fadeIn 0.3s ease;
-    }
+    .panel { animation: fadeIn 0.3s ease; }
 
     .stats-grid {
       display: grid;
@@ -114,18 +98,8 @@
       text-align: center;
     }
 
-    .stat-card p.title {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin: 0 0 8px;
-    }
-
-    .stat-card p.value {
-      font-size: 28px;
-      font-weight: bold;
-      color: var(--text-primary);
-      margin: 0;
-    }
+    .stat-card p.title { font-size: 14px; color: var(--text-muted); margin: 0 0 8px; }
+    .stat-card p.value { font-size: 28px; font-weight: bold; color: var(--text-primary); margin: 0; }
 
     .arrow-btn {
       display: inline-flex;
@@ -142,19 +116,10 @@
       transition: background 0.2s;
     }
 
-    .arrow-btn:hover {
-      background: var(--fill-ghost-selected);
-    }
+    .arrow-btn:hover { background: var(--fill-ghost-selected); }
+    .arrow-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    .arrow-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .image-container {
-      margin-top: 15px;
-      text-align: center;
-    }
+    .image-container { margin-top: 15px; text-align: center; }
 
     .building-img {
       width: 100%;
@@ -169,13 +134,8 @@
       cursor: pointer;
     }
 
-    .building-img:hover {
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-
-    .building-img.pop {
-      transform: scale(1.03);
-    }
+    .building-img:hover { box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .building-img.pop { transform: scale(1.03); }
 
     #levels-viewer {
       display: none;
@@ -194,9 +154,6 @@
       flex-wrap: wrap;
     }
 
-    /* ==========================================
-       ستايل المناطق القابلة للنقر (التفاعلية)
-       ========================================== */
     #interactive-map-container {
       position: relative;
       display: inline-block;
@@ -213,26 +170,17 @@
 
     .clickable-zone {
       position: absolute;
-      /* لون الخلفية للتجربة لتتمكن من رؤية الأماكن وتعديلها */
       background: rgba(217, 119, 6, 0.4); 
-      border: 2px dashed var(--primary-color);
+      /* تم إزالة الإطار المتقطع لأنه لا يتوافق جيداً مع الأشكال المخصصة (clip-path) */
       cursor: pointer;
       transition: background 0.2s ease, transform 0.2s ease;
-      border-radius: 4px;
     }
 
     .clickable-zone:hover {
-      /* لون عند تمرير الماوس */
       background: rgba(217, 119, 6, 0.7);
       transform: scale(1.05);
     }
 
-    /* ملاحظة: عندما تنتهي من ضبط الأماكن، قم باستبدال الـ background و الـ border في الأعلى بـ:
-       background: transparent;
-       border: none;
-    */
-
-    /* ستايل صفحة التفاصيل (الصورة الثانية) */
     #detail-viewer {
       display: none;
       flex-direction: column;
@@ -291,13 +239,11 @@
 
     <div class="content-area">
       
-      <!-- المقر الرئيسي -->
       <div id="panel-overview" class="panel" style="display:none;">
         <h3 style="margin-top:0; color:var(--text-primary);">المقر الرئيسي</h3>
         <p style="color:var(--text-secondary);">محتوى المقر الرئيسي يظهر هنا...</p>
       </div>
 
-      <!-- مقر ابيار علي 172 -->
       <div id="panel-projects" class="panel" style="display:block;">
         
         <div class="stats-grid">
@@ -306,7 +252,6 @@
           <div class="stat-card"><p class="title">عدد القاعات</p><p class="value">120</p></div>
         </div>
         
-        <!-- الصورة الرئيسية -->
         <div class="image-container" id="main-map-container">
           <p style="font-size:15px; color:var(--text-secondary); margin:0 0 12px 0;">
             <i class="ti ti-click" style="vertical-align: middle;"></i> اضغط على الصورة أدناه لعرض مخططات الأدوار:
@@ -314,10 +259,8 @@
           <img id="main-map-img" src="https://k.top4top.io/p_3897iqqsm1.jpg" class="building-img" alt="صورة المبنى الرئيسي">
         </div>
         
-        <!-- عارض المستويات -->
         <div id="levels-viewer">
           
-          <!-- أزرار التنقل بين الأدوار -->
           <div class="arrows-container" id="floor-controls">
             <button id="btn-up" class="arrow-btn"><i class="ti ti-arrow-up"></i> الدور الأعلى</button>
             <button id="btn-down" class="arrow-btn"><i class="ti ti-arrow-down"></i> الدور الأسفل</button>
@@ -326,16 +269,13 @@
             </button>
           </div>
           
-          <!-- الحاوية التفاعلية للمخطط (التي تحتوي على الصورة والأجزاء القابلة للنقر) -->
           <div style="text-align: center;" id="interactive-area">
             <div id="interactive-map-container">
               <img id="current-level-img" src="" alt="مخطط الدور">
-              <!-- سيتم توليد الأزرار الشفافة هنا بواسطة الجافاسكريبت -->
             </div>
             <h3 id="level-indicator" style="margin: 15px 0 0 0; color: var(--text-primary);"></h3>
           </div>
 
-          <!-- عارض تفاصيل الجزء (الصورة الثانية التي تظهر عند النقر) -->
           <div id="detail-viewer">
             <div style="width: 100%; display: flex; justify-content: flex-start;">
               <button id="btn-back-to-floor" class="arrow-btn" style="color: var(--primary-color);">
@@ -349,7 +289,6 @@
         </div>
       </div>
 
-      <!-- كلية السلام -->
       <div id="panel-tasks" class="panel" style="display:none;">
         <h3 style="margin-top:0; color:var(--text-primary);">مقر كلية السلام</h3>
         <p style="color:var(--text-secondary);">محتوى كلية السلام يظهر هنا...</p>
@@ -359,7 +298,6 @@
   </div>
 
   <script>
-  // 1. نظام القائمة الجانبية (لم يتغير)
   const sidebar = document.getElementById('sidebar');
   const toggleSidebarBtn = document.getElementById('toggle-sidebar');
   if (window.innerWidth <= 768) { sidebar.classList.add('sidebar-hidden'); }
@@ -374,64 +312,50 @@
     });
   });
 
-  // ==========================================
-  // 2. إعدادات المخططات والأجزاء القابلة للنقر
-  // ==========================================
-  
   const levelImages = [
-    "https://l.top4top.io/p_3898sjw5n1.jpeg", // 0: الدور الأرضي
-    "https://b.top4top.io/p_3897zgg9h1.jpg", // 1: الدور الأول
-    "https://c.top4top.io/p_38970eadv2.jpg"  // 2: الدور الثاني
+    "https://c.top4top.io/p_3897ybkk61.jpg", 
+    "https://b.top4top.io/p_3897zgg9h1.jpg", 
+    "https://c.top4top.io/p_38970eadv2.jpg"  
   ];
   const levelNames = ["الدور الأرضي", "الدور الأول", "الدور الثاني"];
   let currentLevel = 0; 
 
-  /* 
-    شرح كيفية التعديل على الأجزاء (Zones):
-    - top: البعد عن أعلى الصورة (بالنسبة المئوية %)
-    - left: البعد عن يسار الصورة (بالنسبة المئوية %)
-    - width: عرض المربع القابل للنقر (بالنسبة المئوية %)
-    - height: طول المربع القابل للنقر (بالنسبة المئوية %)
-    - targetImg: رابط الصورة التي تريد أن تظهر عند النقر على هذا الجزء
-    - title: اسم الجزء (سيظهر كعنوان للصورة الجديدة)
+  /*
+    أضفنا خاصية `clipPath` لكل جزء:
+    - polygon(0 0, 100% 30%, 100% 100%, 0 100%) : هذا هو الشكل الموجود في صورتك.
+    - يمكنك إزالة الـ clipPath لأي جزء ليعود مربعاً عادياً، أو تغييره لرسم أشكال أخرى.
   */
+  const myCustomShape = 'polygon(0% 0%, 100% 30%, 100% 100%, 0% 100%)';
+
+    const dsds = 'circle(100% at 100% 100%)';
 
   const interactiveZones = {
-    // --------------------------------
-    // أجزاء الدور الأرضي (7 أجزاء عشوائية)
-    // --------------------------------
     0: [
-      { top: '10%', left: '10%', width: '15%', height: '15%', title: 'المدخل الرئيسي', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+1' },
-      { top: '10%', left: '30%', width: '15%', height: '15%', title: 'المسرح', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+2' },
-      { top: '10%', left: '70%', width: '20%', height: '15%', title: 'مكاتب الإدارة', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+3' },
-      { top: '40%', left: '10%', width: '20%', height: '20%', title: 'قاعة 1', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+4' },
-      { top: '40%', left: '70%', width: '20%', height: '20%', title: 'قاعة 2', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+5' },
-      { top: '70%', left: '20%', width: '25%', height: '15%', title: 'الكافتيريا', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+6' },
-      { top: '70%', left: '55%', width: '25%', height: '15%', title: 'الساحة الخارجية', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+7' },
+      { top: '10%', left: '10%', width: '15%', height: '25%', clipPath: dsds, title: 'المدخل الرئيسي', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+1' },
+      { top: '10%', left: '30%', width: '15%', height: '25%', clipPath: myCustomShape, title: 'المسرح', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+2' },
+      { top: '10%', left: '70%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'مكاتب الإدارة', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+3' },
+      { top: '40%', left: '10%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'قاعة 1', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+4' },
+      { top: '40%', left: '70%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'قاعة 2', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+5' },
+      { top: '70%', left: '20%', width: '25%', height: '25%', clipPath: myCustomShape, title: 'الكافتيريا', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+6' },
+      { top: '70%', left: '55%', width: '25%', height: '25%', clipPath: myCustomShape, title: 'الساحة الخارجية', targetImg: 'https://via.placeholder.com/800x400?text=Ground+Floor+Part+7' },
     ],
-    // --------------------------------
-    // أجزاء الدور الأول (7 أجزاء عشوائية)
-    // --------------------------------
     1: [
-      { top: '15%', left: '15%', width: '20%', height: '20%', title: 'معمل الحاسب 1', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+1' },
-      { top: '15%', left: '40%', width: '20%', height: '20%', title: 'معمل الحاسب 2', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+2' },
-      { top: '15%', left: '65%', width: '20%', height: '20%', title: 'مكتبة الدور الأول', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+3' },
-      { top: '50%', left: '15%', width: '15%', height: '25%', title: 'قاعة المحاضرات A', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+4' },
-      { top: '50%', left: '35%', width: '15%', height: '25%', title: 'قاعة المحاضرات B', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+5' },
-      { top: '50%', left: '55%', width: '15%', height: '25%', title: 'قاعة المحاضرات C', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+6' },
-      { top: '50%', left: '75%', width: '15%', height: '25%', title: 'دورات المياه', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+7' },
+      { top: '15%', left: '15%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'معمل الحاسب 1', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+1' },
+      { top: '15%', left: '40%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'معمل الحاسب 2', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+2' },
+      { top: '15%', left: '65%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'مكتبة الدور الأول', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+3' },
+      { top: '50%', left: '15%', width: '15%', height: '30%', clipPath: myCustomShape, title: 'قاعة المحاضرات A', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+4' },
+      { top: '50%', left: '35%', width: '15%', height: '30%', clipPath: myCustomShape, title: 'قاعة المحاضرات B', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+5' },
+      { top: '50%', left: '55%', width: '15%', height: '30%', clipPath: myCustomShape, title: 'قاعة المحاضرات C', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+6' },
+      { top: '50%', left: '75%', width: '15%', height: '30%', clipPath: myCustomShape, title: 'دورات المياه', targetImg: 'https://via.placeholder.com/800x400?text=First+Floor+Part+7' },
     ],
-    // --------------------------------
-    // أجزاء الدور الثاني (7 أجزاء عشوائية)
-    // --------------------------------
     2: [
-      { top: '20%', left: '10%', width: '20%', height: '15%', title: 'مكاتب الدكاترة 1', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+1' },
-      { top: '20%', left: '40%', width: '20%', height: '15%', title: 'مكاتب الدكاترة 2', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+2' },
-      { top: '20%', left: '70%', width: '20%', height: '15%', title: 'مكاتب الدكاترة 3', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+3' },
-      { top: '50%', left: '10%', width: '35%', height: '20%', title: 'المعمل المتقدم', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+4' },
-      { top: '50%', left: '55%', width: '35%', height: '20%', title: 'قاعة المناقشات', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+5' },
-      { top: '80%', left: '20%', width: '20%', height: '10%', title: 'استراحة الطالبات', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+6' },
-      { top: '80%', left: '60%', width: '20%', height: '10%', title: 'المصلى', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+7' },
+      { top: '20%', left: '10%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'مكاتب الدكاترة 1', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+1' },
+      { top: '20%', left: '40%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'مكاتب الدكاترة 2', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+2' },
+      { top: '20%', left: '70%', width: '20%', height: '25%', clipPath: myCustomShape, title: 'مكاتب الدكاترة 3', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+3' },
+      { top: '50%', left: '10%', width: '35%', height: '30%', clipPath: myCustomShape, title: 'المعمل المتقدم', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+4' },
+      { top: '50%', left: '55%', width: '35%', height: '30%', clipPath: myCustomShape, title: 'قاعة المناقشات', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+5' },
+      { top: '80%', left: '20%', width: '20%', height: '15%', clipPath: myCustomShape, title: 'استراحة الطالبات', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+6' },
+      { top: '80%', left: '60%', width: '20%', height: '15%', clipPath: myCustomShape, title: 'المصلى', targetImg: 'https://via.placeholder.com/800x400?text=Second+Floor+Part+7' },
     ]
   };
 
@@ -452,7 +376,6 @@
   const btnBack = document.getElementById('btn-back');
   const btnBackToFloor = document.getElementById('btn-back-to-floor');
 
-  // الدخول لعارض الأدوار
   mainMapImg.addEventListener('click', function() {
     mainMapImg.classList.add('pop');
     setTimeout(() => {
@@ -463,7 +386,6 @@
     }, 250); 
   });
 
-  // التحكم بالأدوار
   btnUp.addEventListener('click', () => { if (currentLevel < levelImages.length - 1) { currentLevel++; updateLevelView(); } });
   btnDown.addEventListener('click', () => { if (currentLevel > 0) { currentLevel--; updateLevelView(); } });
   btnBack.addEventListener('click', () => {
@@ -472,39 +394,38 @@
     currentLevel = 0; 
   });
 
-  // الرجوع من الصورة التفصيلية إلى مخطط الدور
   btnBackToFloor.addEventListener('click', () => {
     detailViewer.style.display = 'none';
     floorControls.style.display = 'flex';
     interactiveArea.style.display = 'block';
   });
 
-  // دالة تحديث وعرض المخطط ورسم الأجزاء التفاعلية
   function updateLevelView() {
-    // تحديث صورة الدور الأساسية
     currentLevelImg.src = levelImages[currentLevel];
     levelIndicator.innerText = levelNames[currentLevel];
     btnDown.disabled = (currentLevel === 0);
     btnUp.disabled = (currentLevel === levelImages.length - 1);
 
-    // حذف الأجزاء (Zones) السابقة حتى لا تتداخل
     const existingZones = interactiveMapContainer.querySelectorAll('.clickable-zone');
     existingZones.forEach(zone => zone.remove());
 
-    // رسم الأجزاء الجديدة الخاصة بالدور الحالي
     const currentZones = interactiveZones[currentLevel];
     if(currentZones) {
       currentZones.forEach(zoneData => {
         const zoneDiv = document.createElement('div');
         zoneDiv.className = 'clickable-zone';
         
-        // تعيين الأبعاد والموقع بناءً على النسب المئوية التي وضعناها
         zoneDiv.style.top = zoneData.top;
         zoneDiv.style.left = zoneData.left;
         zoneDiv.style.width = zoneData.width;
         zoneDiv.style.height = zoneData.height;
+
+        // تطبيق الشكل المخصص إذا كان موجوداً
+        if (zoneData.clipPath) {
+          zoneDiv.style.clipPath = zoneData.clipPath;
+          zoneDiv.style.webkitClipPath = zoneData.clipPath; // لدعم متصفح سفاري
+        }
         
-        // إضافة حدث النقر على الجزء
         zoneDiv.addEventListener('click', () => {
           showDetailImage(zoneData.targetImg, zoneData.title);
         });
@@ -514,17 +435,15 @@
     }
   }
 
-  // دالة إظهار الصورة التفصيلية للجزء
   function showDetailImage(imgSrc, title) {
-    floorControls.style.display = 'none';     // إخفاء أزرار فوق/تحت
-    interactiveArea.style.display = 'none';   // إخفاء المخطط
+    floorControls.style.display = 'none';     
+    interactiveArea.style.display = 'none';   
     
-    detailImage.src = imgSrc;                 // وضع الصورة الجديدة
-    detailTitle.innerText = title;            // وضع عنوان الصورة
-    detailViewer.style.display = 'flex';      // عرض قسم التفاصيل
+    detailImage.src = imgSrc;                 
+    detailTitle.innerText = title;            
+    detailViewer.style.display = 'flex';      
   }
 
-  // 3. نظام الوضع الداكن (لم يتغير)
   const darkModeBtn = document.getElementById('toggle-dark-mode');
   if (localStorage.getItem('theme') === 'dark') {
     document.body.classList.add('dark-mode');
