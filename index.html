@@ -208,28 +208,28 @@
       .arrows-container { justify-content: center; }
       #btn-back { width: 100%; justify-content: center; margin-top: 10px; margin-right: 0 !important; }
       
-      /* تجهيز المساحة للصورة بعد دورانها لتجنب تداخلها مع العناصر الأخرى */
+      /* تجهيز المساحة للصورة بعد دورانها */
       #interactive-area {
         display: flex;
-        flex-direction: column; /* هذا السطر يخلي النص ينزل تحت الصورة */
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         width: 100%;
-        min-height: 80vh; 
-        overflow: hidden;
+        min-height: 100vh; /* زودنا الارتفاع لتستوعب حجم الصورة الجديد */
+        overflow: visible; /* لمنع قص أطراف الصورة */
       }
       
-      /* دوران الصورة 90 درجة وتكبيرها لتملأ الشاشة بالطول */
+      /* دوران الصورة 90 درجة وتكبيرها بشكل ملحوظ */
       #interactive-map-container {
         transform: rotate(90deg);
-        width: 160%; 
+        width: 230%; /* تم التكبير من 160% إلى 230% لزيادة الحجم بشكل كبير */
         max-width: none;
         transform-origin: center center;
+        margin: 50px 0; /* مسافة لضمان عدم تداخل الأطراف مع العناصر الأخرى */
       }
       
-      /* تعديل بسيط لمكان النص في الجوال */
       #level-indicator {
-        margin-top: 50px !important; /* مسافة بسيطة بين الصورة والنص عشان ما يتداخلون */
+        margin-top: 50px !important; 
       }
     }
 
