@@ -211,19 +211,25 @@
       /* تجهيز المساحة للصورة بعد دورانها لتجنب تداخلها مع العناصر الأخرى */
       #interactive-area {
         display: flex;
+        flex-direction: column; /* هذا السطر يخلي النص ينزل تحت الصورة */
         justify-content: center;
         align-items: center;
         width: 100%;
-        min-height: 80vh; /* ارتفاع يتناسب مع الصورة المقلوبة عرضياً */
+        min-height: 80vh; 
         overflow: hidden;
       }
       
       /* دوران الصورة 90 درجة وتكبيرها لتملأ الشاشة بالطول */
       #interactive-map-container {
         transform: rotate(90deg);
-        width: 160%; /* جعلناها أكبر قليلاً لتناسب الشاشة بشكل طولي ممتاز */
+        width: 160%; 
         max-width: none;
         transform-origin: center center;
+      }
+      
+      /* تعديل بسيط لمكان النص في الجوال */
+      #level-indicator {
+        margin-top: 50px !important; /* مسافة بسيطة بين الصورة والنص عشان ما يتداخلون */
       }
     }
 
