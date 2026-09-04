@@ -199,7 +199,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* التعديلات الخاصة بالجوال */
+    /* التعديلات الخاصة بالجوال فقط */
     @media (max-width: 768px) {
       body { padding: 15px; }
       .dashboard-container { flex-direction: column; }
@@ -208,20 +208,22 @@
       .arrows-container { justify-content: center; }
       #btn-back { width: 100%; justify-content: center; margin-top: 10px; margin-right: 0 !important; }
       
-      /* جعل منطقة المخطط قابلة للتمرير الأفقي */
+      /* تجهيز المساحة للصورة بعد دورانها لتجنب تداخلها مع العناصر الأخرى */
       #interactive-area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom: 10px;
+        min-height: 80vh; /* ارتفاع يتناسب مع الصورة المقلوبة عرضياً */
+        overflow: hidden;
       }
       
-      /* إعطاء المخطط عرض ثابت كبير ليظهر عرضياً ولا يصغر */
+      /* دوران الصورة 90 درجة وتكبيرها لتملأ الشاشة بالطول */
       #interactive-map-container {
-        width: 900px;
+        transform: rotate(90deg);
+        width: 160%; /* جعلناها أكبر قليلاً لتناسب الشاشة بشكل طولي ممتاز */
         max-width: none;
-        display: block;
-        margin: 0 auto;
+        transform-origin: center center;
       }
     }
 
@@ -338,7 +340,6 @@
 
   const myCustomShape = 'polygon(0% 0%, 100% 30%, 100% 100%, 0% 100%)';
   const fd = 'polygon(28.5% 1.2%, 38.5% 5.5%, 40.5% 5.55%, 43% 5.65%, 45.5% 6%, 48% 6.2%, 50.5% 6.5%, 53% 7%, 55.5% 7.2%, 58% 8%, 64.5% 9.7%, 64.5% 9.8%, 69.3% 11.9%, 69.3% 11.9%, 73.8% 14.5%, 73.8% 14.5%, 78.8% 17.6%, 78.8% 17.6%, 83% 21.1%, 83% 21.1%, 85.8% 25.1%, 85.8% 25.1%, 89% 29.5%, 100% 34.65%, 100% 100%, 28.5% 100%, 28.5% 79.5%, 0% 79.5%, 0% 59.5%, 28.5% 59.5%)';
-  const dsds = 'circle(100% at 100% 100%)';
 
   const interactiveZones = {
     0: [
@@ -405,7 +406,7 @@
   btnBackToFloor.addEventListener('click', () => {
     detailViewer.style.display = 'none';
     floorControls.style.display = 'flex';
-    interactiveArea.style.display = 'block';
+    interactiveArea.style.display = 'flex';
   });
 
   function updateLevelView() {
